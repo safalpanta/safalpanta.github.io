@@ -172,6 +172,8 @@
       transition: transform 0.2s ease;
     }
     .proto-btn:hover { transform: translateY(-4px) rotate(-0.4deg); }
+
+    .proto-btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; }
   </style>
 </head>
 <body>
@@ -182,7 +184,7 @@
   <main class="grid">
 
     <article class="card pink">
-      <h2 class="name">Bijay Baral</h2>
+      <h2 class="name">Ayou Zhang</h2>
       <dl class="info">
         <div class="row"><dt>Nationality</dt><dd>Colombian</dd></div>
         <div class="row"><dt>Educational Background</dt><dd>Civil Engineer</dd></div>
@@ -194,23 +196,35 @@
     </article>
 
     <article class="card yellow">
-      <h2 class="name">Safal Panta</h2>
+      <h2 class="name">Bijay Baral</h2>
       <dl class="info">
         <div class="row"><dt>Nationality</dt><dd>Korea</dd></div>
         <div class="row"><dt>Educational Background</dt><dd>Material Science and Engineering</dd></div>
         <div class="row"><dt>IT Skills</dt><dd>Python, MySQL, HTML/CSS</dd></div>
-        <div class="row"><dt>Work Experience</dt><dd>Undergraduate Research Assistant in Dynamic Nanobionengineering Lab</dd><dd>Assistant Migration Agent</dd></div>
+        <div class="row"><dt>Work Experience</dt><dd>1. Undergraduate Research Assistant in Dynamic Nanobionengineering Lab</dd><dd>2. Assistant Migration Agent</dd></div>
         <div class="row"><dt>Project Goal</dt><dd>Data Management Project in Material Science Field</dd></div>
         <div class="row"><dt>Hobby</dt><dd>Photograph</dd></div>
       </dl>
     </article>
 
     <article class="card mint">
-      <h2 class="name">Yoyo</h2>
+      <h2 class="name">Chinmay</h2>
       <dl class="info">
         <div class="row"><dt>Nationality</dt><dd>Hong Kong</dd></div>
         <div class="row"><dt>Educational Background</dt><dd>Tourism Management</dd></div>
         <div class="row"><dt>IT Skills</dt><dd>Database Management</dd></div>
+        <div class="row"><dt>Work Experience</dt><dd></dd></div>
+        <div class="row"><dt>Project Goal</dt><dd></dd></div>
+        <div class="row"><dt>Hobby</dt><dd></dd></div>
+      </dl>
+    </article>
+
+    <article class="card lavender">
+      <h2 class="name">Safal Panta</h2>
+      <dl class="info">
+        <div class="row"><dt>Nationality</dt><dd>Korea</dd></div>
+        <div class="row"><dt>Educational Background</dt><dd>Government</dd></div>
+        <div class="row"><dt>IT Skills</dt><dd>React, JavaScript, Node.js</dd></div>
         <div class="row"><dt>Work Experience</dt><dd></dd></div>
         <div class="row"><dt>Project Goal</dt><dd></dd></div>
         <div class="row"><dt>Hobby</dt><dd></dd></div>
@@ -278,39 +292,26 @@
         <div class="tags"><span>Tech 1</span><span>Tech 2</span></div>
       </article>
 
-      <article class="idea yellow">
-        <h3>Idea Title</h3>
-        <p>Short explanation</p>
-        <div class="tags"><span>Tech 1</span><span>Tech 2</span></div>
-      </article>
-
-      <article class="idea mint">
-        <h3>Idea Title</h3>
-        <p>Short explanation</p>
-        <div class="tags"><span>Tech 1</span><span>Tech 2</span></div>
-      </article>
-
-      <article class="idea lavender">
-        <h3>Idea Title</h3>
-        <p>Short explanation</p>
-        <div class="tags"><span>Tech 1</span><span>Tech 2</span></div>
-      </article>
-
     </div>
-
-    <section class="proto">
-    <h2 class="section-title">Prototype</h2>
-    <p class="section-sub">Connect Student: share and explore phone signal data</p>
-    <a class="proto-btn" href="prototype.html">View Prototype &rarr;</a>
+      
+  <section class="proto">
+    <h2 class="section-title">Prototypes</h2>
+    <p class="section-sub">Click a button to open each prototype</p>
+    <div class="proto-btns">
+      <a class="proto-btn" href="prototype1.html">Prototype 1 &rarr;</a>
+      <a class="proto-btn" href="prototype2.html">Prototype 2 &rarr;</a>
+    </div>
   </section>
+      
   </section>
     <section class="docs">
     <h2 class="section-title">Documentation</h2>
     <p class="section-sub">Click a name to see each member's documentation</p>
     <div class="doc-grid">
-      <a class="doc-link pink" href="safal.html"><span class="doc-name">Safal Panta</span><span class="doc-go">View &rarr;</span></a>
-      <a class="doc-link yellow" href="bijay.html"><span class="doc-name">Bijay Baral</span><span class="doc-go">View &rarr;</span></a>
-      <a class="doc-link mint" href="yoyo.html"><span class="doc-name">Yoyo</span><span class="doc-go">View &rarr;</span></a>
+      <a class="doc-link pink" href="ayou.html"><span class="doc-name">Ayou Zhang</span><span class="doc-go">View &rarr;</span></a>
+      <a class="doc-link yellow" href="bijay.html"><span class="doc-name">Bijya Baral</span><span class="doc-go">View &rarr;</span></a>
+      <a class="doc-link mint" href="chinmay.html"><span class="doc-name">Chinmay</span><span class="doc-go">View &rarr;</span></a>
+      <a class="doc-link lavender" href="safal.html"><span class="doc-name">Safal Panta</span><span class="doc-go">View &rarr;</span></a>
     </div>
   </section>
 </body>
