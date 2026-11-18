@@ -1,1590 +1,785 @@
+
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monash Student Data & Learning App</title>
-  <!-- Load Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Load Google Font: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-          },
-          colors: {
-            appBg: '#0B0D12',
-            cardSurface: '#141821',
-            cardInner: '#0F1219',
-            cardBorder: '#232938',
-            heroIndigoTop: '#312E81',
-            heroIndigoBottom: '#4338CA',
-            nepalCyan: '#06B6D4',
-            hongKongRose: '#F43F5E',
-            indiaAmber: '#F59E0B',
-            activeIndigo: '#6366F1',
-          }
-        }
-      }
-    };
-  </script>
-
-  <style>
-    /* Theme CSS Variables for seamless Night & Day Mode transitions */
-    :root {
-      --outer-bg: #EEF2F7;
-      --app-bg: #F4F6FB;
-      --frame-border: #CBD5E1;
-      --card-surface: #FFFFFF;
-      --card-inner: #F8FAFC;
-      --card-border: #E2E8F0;
-      --callout-bg: #EEF2FF;
-      --callout-border: #C7D2FE;
-      --callout-text: #1E1B4B;
-      --privacy-bg: #ECFDF5;
-      --privacy-border: #A7F3D0;
-      --privacy-text: #064E3B;
-      --text-primary: #0F172A;
-      --text-secondary: #475569;
-      --text-muted: #64748B;
-      --grid-line: #E2E8F0;
-      --grid-axis: #CBD5E1;
-      --nav-bg: rgba(255, 255, 255, 0.92);
-      --nav-border: #E2E8F0;
-      --toggle-off: #CBD5E1;
-      --card-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
-    }
-
-    html.dark {
-      --outer-bg: #06070A;
-      --app-bg: #0B0D12;
-      --frame-border: #1E2330;
-      --card-surface: #141821;
-      --card-inner: #0F1219;
-      --card-border: #232938;
-      --callout-bg: #1A1F2E;
-      --callout-border: #2D354D;
-      --callout-text: #E2E8F0;
-      --privacy-bg: #112422;
-      --privacy-border: #1E3F3A;
-      --privacy-text: #ECFDF5;
-      --text-primary: #FFFFFF;
-      --text-secondary: #94A3B8;
-      --text-muted: #64748B;
-      --grid-line: #1E2433;
-      --grid-axis: #2B3347;
-      --nav-bg: rgba(20, 24, 33, 0.92);
-      --nav-border: #262D3F;
-      --toggle-off: #262D3F;
-      --card-shadow: 0 14px 34px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    }
-
-    body, #mobile-frame, .theme-surface, .theme-inner, .theme-border {
-      transition: background-color 0.28s ease, border-color 0.28s ease, color 0.28s ease, box-shadow 0.28s ease;
-    }
-
-    /* Custom scrollbar hiding for sleek mobile viewport experience */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-
-    /* Smooth accordion collapse transitions */
-    .accordion-content {
-      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
-      overflow: hidden;
-    }
-
-    /* Bar chart smooth height transitions */
-    .bar-fill {
-      transition: height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease, filter 0.3s ease;
-    }
-
-    /* Scatter plot dot hover/active animation */
-    .scatter-dot {
-      transition: r 0.2s ease, opacity 0.3s ease, stroke-width 0.2s ease;
-      cursor: pointer;
-    }
-    .scatter-dot:hover {
-      r: 7.5;
-      stroke: var(--text-primary);
-      stroke-width: 2;
-    }
-
-    @keyframes pulseDot {
-      0%, 100% { opacity: 0.3; transform: translateY(0); }
-      50% { opacity: 1; transform: translateY(-2px); }
-    }
-    .typing-dot:nth-child(1) { animation: pulseDot 1.1s infinite 0s; }
-    .typing-dot:nth-child(2) { animation: pulseDot 1.1s infinite 0.2s; }
-    .typing-dot:nth-child(3) { animation: pulseDot 1.1s infinite 0.4s; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Velora | Personal Finance</title>
+<style>
+:root {
+  --bg:#f4f5f1;
+  --card:#ffffff;
+  --text:#19211e;
+  --muted:#818b85;
+  --accent:#c9fa65;
+  --border:#e5e9e3;
+}
+body.dark {
+  --bg:#111714;
+  --card:#202923;
+  --text:#f4f7f2;
+  --muted:#a1aca3;
+  --border:#39443c;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:#dce4dd;
+  color:var(--text);
+  font-family:Arial,sans-serif;
+}
+.phone {
+  width:100%;
+  max-width:430px;
+  min-height:100vh;
+  margin:auto;
+  background:var(--bg);
+  padding:24px 20px 100px;
+  position:relative;
+}
+header,.row,.between {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.logo {
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:-1px;
+}
+.logo span {color:#85b53c}
+.avatar {
+  width:42px;height:42px;
+  background:var(--accent);
+  border-radius:50%;
+  display:grid;place-items:center;
+  font-weight:bold;color:#19211e;
+}
+h1 {font-size:29px;letter-spacing:-1px}
+h2 {font-size:19px}
+small,.muted {color:var(--muted)}
+.balance {
+  background:#1e2923;
+  color:white;
+  padding:25px;
+  border-radius:26px;
+  margin:22px 0;
+  position:relative;
+  overflow:hidden;
+}
+.balance:after {
+  content:"";
+  position:absolute;
+  width:160px;height:160px;
+  border:35px solid #ffffff0c;
+  border-radius:50%;
+  right:-70px;top:-65px;
+}
+.balance small {color:#b4c1b6}
+.amount {
+  font-size:38px;
+  font-weight:800;
+  margin:14px 0 24px;
+}
+.balance-stats {
+  display:flex;
+  gap:15px;
+}
+.stat {flex:1}
+.stat strong {
+  display:block;
+  margin-top:8px;
+  font-size:18px;
+}
+.actions {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin:22px 0;
+}
+.action {
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:16px 5px;
+  border-radius:19px;
+  text-align:center;
+  cursor:pointer;
+  color:var(--text);
+}
+.action b {
+  display:block;
+  font-size:23px;
+  margin-bottom:9px;
+}
+.card {
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:19px;
+  border-radius:23px;
+  margin:15px 0;
+}
+.transaction {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px 0;
+  border-bottom:1px solid var(--border);
+}
+.transaction:last-child {border:0}
+.symbol {
+  width:43px;height:43px;
+  border-radius:15px;
+  background:var(--bg);
+  display:grid;place-items:center;
+  font-size:21px;
+}
+.transaction .details {flex:1}
+.transaction strong {display:block}
+.transaction small {font-size:12px}
+.money {font-weight:800}
+.positive {color:#3d9d65}
+.negative {color:#e57d69}
+button {font-family:inherit;cursor:pointer}
+.primary {
+  width:100%;
+  background:var(--accent);
+  color:#19211e;
+  border:0;
+  padding:15px;
+  border-radius:15px;
+  font-weight:800;
+}
+.secondary {
+  background:var(--bg);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:9px 12px;
+}
+input,select {
+  width:100%;
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  margin:7px 0 15px;
+  background:var(--card);
+  color:var(--text);
+  font-size:15px;
+}
+label {font-size:13px;font-weight:700}
+.progress {
+  height:10px;
+  background:var(--border);
+  border-radius:20px;
+  overflow:hidden;
+  margin:13px 0;
+}
+.fill {
+  height:100%;
+  background:#9cce50;
+  border-radius:20px;
+}
+nav {
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:430px;
+  display:flex;
+  justify-content:space-around;
+  background:var(--card);
+  border-top:1px solid var(--border);
+  padding:13px 0 20px;
+  z-index:5;
+}
+nav button {
+  background:none;
+  border:0;
+  color:var(--muted);
+  font-size:12px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+}
+nav button span {font-size:23px}
+nav button.active {color:var(--text);font-weight:800}
+.page {display:none}
+.page.active {display:block}
+.chart {
+  display:flex;
+  height:140px;
+  align-items:end;
+  justify-content:space-around;
+  gap:12px;
+  padding-top:20px;
+}
+.bar {
+  flex:1;
+  background:#c9fa65;
+  border-radius:9px 9px 3px 3px;
+  min-height:5px;
+}
+.chart-labels {
+  display:flex;
+  justify-content:space-around;
+  font-size:11px;
+  color:var(--muted);
+  margin-top:10px;
+}
+.modal {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#0009;
+  z-index:10;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.modal.open {display:flex}
+.modal-content {
+  background:var(--card);
+  padding:24px;
+  border-radius:25px;
+  width:100%;
+  max-width:390px;
+}
+.modal-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+.close {
+  border:0;
+  background:none;
+  color:var(--text);
+  font-size:25px;
+}
+.empty {
+  color:var(--muted);
+  text-align:center;
+  padding:25px 0;
+}
+.goal-icon {font-size:30px}
+@media(min-width:500px) {
+  body {padding:25px 0}
+  .phone {
+    min-height:850px;
+    border-radius:32px;
+    box-shadow:0 20px 70px #0002;
+  }
+}
+</style>
 </head>
-<body style="background-color: var(--outer-bg); color: var(--text-primary);" class="font-sans antialiased min-h-screen flex justify-center items-start sm:py-6 selection:bg-indigo-500/30">
+<body>
+<div class="phone">
+<header>
+  <div class="logo">✦ velo<span>ra.</span></div>
+  <div class="avatar">V</div>
+</header>
 
-  <!-- Mobile Device Frame Container (max-width 412px) -->
-  <div id="mobile-frame" style="background-color: var(--app-bg); border-color: var(--frame-border);" class="relative w-full max-w-[412px] min-h-screen sm:min-h-[850px] sm:h-[850px] sm:rounded-[42px] sm:border-[6px] sm:shadow-[0_25px_70px_-15px_rgba(0,0,0,0.45)] flex flex-col overflow-hidden">
+<section id="home" class="page active">
+  <p class="muted">Your money, in motion ✨</p>
+  <h1>Good to see you!</h1>
 
-    <!-- Top Sticky Header + Simulated Mobile Status Bar -->
-    <header class="sticky top-0 z-30 bg-[#312E81]/95 dark:bg-[#312E81]/95 backdrop-blur-md border-b border-white/10 select-none">
-      <!-- Simulated Mobile Status Bar -->
-      <div class="flex items-center justify-between px-6 pt-2.5 pb-1 text-[12px] font-semibold tracking-tight text-white">
-        <span>9:41</span>
-        <div class="flex items-center gap-1.5">
-          <span class="text-[11px] font-bold">5G</span>
-          <span class="text-[11px] font-bold">100%</span>
-        </div>
+  <div class="balance">
+    <small>Total balance</small>
+    <div class="amount" id="balance">$0.00</div>
+    <div class="balance-stats">
+      <div class="stat">
+        <small>↗ Income</small>
+        <strong id="income">$0</strong>
       </div>
-
-      <!-- App Navigation Header -->
-      <div class="flex items-center justify-between px-4 py-2.5">
-        <!-- Monash Logo Placeholder -->
-        <button onclick="scrollToSection('home-section')" title="Return to top" class="border-[1.5px] border-dashed border-indigo-200/80 rounded-xl px-3 py-1.5 text-center leading-tight hover:bg-white/10 transition active:scale-95">
-          <div class="text-[9.5px] font-extrabold tracking-wider uppercase text-white">MONASH LOGO</div>
-          <div class="text-[9.5px] font-extrabold tracking-wider uppercase text-white">PLACEHOLDER</div>
-        </button>
-
-        <!-- Right Controls: Night/Day Toggle + Sensor Count Pill + User Initials -->
-        <div class="flex items-center gap-2">
-          <!-- Night / Day Mode Toggle Button -->
-          <button id="header-theme-btn" onclick="toggleTheme()" class="w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 border border-indigo-200/30 flex items-center justify-center text-white backdrop-blur-sm transition active:scale-95" title="Switch Night / Day Mode" aria-label="Toggle Night and Day Mode">
-            <!-- Sun Icon (shown in Night Mode to switch to Day) -->
-            <svg id="header-sun-icon" class="w-4 h-4 text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-            <!-- Moon Icon (shown in Day Mode to switch to Night) -->
-            <svg id="header-moon-icon" class="w-4 h-4 text-indigo-100 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-            </svg>
-          </button>
-
-          <button onclick="scrollToSection('settings-section')" class="flex items-center gap-1.5 bg-white/15 hover:bg-white/25 border border-indigo-200/30 rounded-full px-2.5 py-1.5 text-xs font-semibold text-white backdrop-blur-sm transition active:scale-95" title="Manage sensor privacy">
-            <!-- Lock Icon -->
-            <svg class="w-3.5 h-3.5 text-indigo-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-              <rect x="5" y="11" width="14" height="10" rx="2" />
-              <path d="M8 11V7a4 4 0 018 0v4" />
-            </svg>
-            <span id="header-sensor-count">4 on</span>
-          </button>
-
-          <button onclick="scrollToSection('settings-section')" class="w-8 h-8 rounded-full bg-white text-[#312E81] font-extrabold text-xs flex items-center justify-center shadow-md shadow-indigo-950/40 hover:scale-105 transition active:scale-95" title="Student Profile (ST)">
-            ST
-          </button>
-        </div>
+      <div class="stat">
+        <small>↘ Expenses</small>
+        <strong id="expenses">$0</strong>
       </div>
-    </header>
-
-    <!-- Scrollable Main Viewport -->
-    <main id="scroll-container" class="flex-1 overflow-y-auto no-scrollbar pb-28 scroll-smooth">
-
-      <!-- 1. HOME / HERO SECTION -->
-      <section id="home-section" class="relative">
-        <!-- Rich Indigo-to-Violet Gradient Banner -->
-        <div class="bg-gradient-to-b from-[#312E81] via-[#4338CA] to-[#3730A3] dark:to-[#1E1B4B] px-5 pt-4 pb-20 rounded-b-[30px] shadow-[inset_0_-1px_0_rgba(255,255,255,0.12)]">
-          <h1 class="text-[28px] font-extrabold tracking-tight text-white leading-tight">
-            Hi, student
-          </h1>
-          <p class="mt-2 text-[15px] leading-relaxed text-indigo-100/95 font-normal">
-            Explore your data and learn together with students in Hong Kong, Nepal and India.
-          </p>
-
-          <button onclick="scrollToSection('data-section')" class="mt-5 inline-flex items-center gap-2 bg-white hover:bg-indigo-50 text-[#312E81] font-bold text-[14px] px-5 py-3 rounded-full shadow-lg shadow-indigo-950/35 transition transform active:scale-95">
-            <span>Start exploring</span>
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-            </svg>
-          </button>
-        </div>
-
-        <!-- Overlapping 3-Column Stat Cards -->
-        <div class="px-4 -mt-11 grid grid-cols-3 gap-2.5">
-          <div style="background-color: var(--card-surface); border-color: var(--card-border); box-shadow: var(--card-shadow);" class="theme-surface backdrop-blur-md border rounded-2xl py-3.5 px-2 text-center">
-            <div style="color: var(--text-primary);" class="text-[21px] font-extrabold leading-none">142</div>
-            <div style="color: var(--text-secondary);" class="mt-1.5 text-[11.5px] font-medium">students</div>
-          </div>
-          <div style="background-color: var(--card-surface); border-color: var(--card-border); box-shadow: var(--card-shadow);" class="theme-surface backdrop-blur-md border rounded-2xl py-3.5 px-2 text-center">
-            <div style="color: var(--text-primary);" class="text-[21px] font-extrabold leading-none">3</div>
-            <div style="color: var(--text-secondary);" class="mt-1.5 text-[11.5px] font-medium">regions</div>
-          </div>
-          <div style="background-color: var(--card-surface); border-color: var(--card-border); box-shadow: var(--card-shadow);" class="theme-surface backdrop-blur-md border rounded-2xl py-3.5 px-2 text-center">
-            <div style="color: var(--text-primary);" class="text-[21px] font-extrabold leading-none">2</div>
-            <div style="color: var(--text-secondary);" class="mt-1.5 text-[11.5px] font-medium">day streak</div>
-          </div>
-        </div>
-
-        <!-- Section Label -->
-        <div class="px-5 mt-6 mb-3">
-          <span class="text-[11px] font-bold tracking-[0.14em] uppercase text-indigo-600 dark:text-indigo-300/70">YOUR SPACE</span>
-        </div>
-      </section>
-
-      <!-- MAIN CARDS STACK -->
-      <div class="px-4 space-y-4">
-
-        <!-- 2. DATA / DASHBOARD CARD -->
-        <section id="data-section" style="background-color: var(--card-surface); border-color: var(--card-border); box-shadow: var(--card-shadow);" class="theme-surface border rounded-[24px] p-4">
-          <!-- Collapsible Card Header -->
-          <div onclick="toggleAccordion('dashboard-body', 'dashboard-chevron')" class="flex items-center justify-between cursor-pointer select-none">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-xl bg-[#6366F1]/15 border border-[#6366F1]/25 flex items-center justify-center text-[#6366F1] dark:text-[#818CF8]">
-                <!-- Bar Chart Icon -->
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                  <rect x="4" y="13" width="3.5" height="7" rx="1" />
-                  <rect x="10.25" y="6" width="3.5" height="14" rx="1" />
-                  <rect x="16.5" y="10" width="3.5" height="10" rx="1" />
-                </svg>
-              </div>
-              <div>
-                <h2 style="color: var(--text-primary);" class="text-[16px] font-bold leading-snug">Dashboard</h2>
-                <p style="color: var(--text-secondary);" class="text-[12.5px]">3 regions · live cohort data</p>
-              </div>
-            </div>
-
-            <div class="flex items-center gap-2.5">
-              <span id="dashboard-badge" class="w-6 h-6 rounded-full bg-[#F43F5E] text-white text-[11.5px] font-bold flex items-center justify-center shadow-sm">
-                3
-              </span>
-              <svg id="dashboard-chevron" style="color: var(--text-secondary);" class="w-5 h-5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
-              </svg>
-            </div>
-          </div>
-
-          <!-- Dashboard Collapsible Body -->
-          <div id="dashboard-body" class="accordion-content mt-4 space-y-4" style="max-height: 1600px;">
-
-            <!-- Segmented Filter Pills -->
-            <div style="background-color: var(--card-inner); border-color: var(--card-border);" class="theme-inner border rounded-2xl p-1 grid grid-cols-4 gap-1">
-              <button onclick="setDashboardFilter('All')" data-filter="All" class="dash-filter-btn bg-[#6366F1] text-white font-semibold text-[12px] py-2 rounded-xl transition shadow-sm">
-                All
-              </button>
-              <button onclick="setDashboardFilter('Hong Kong')" data-filter="Hong Kong" class="dash-filter-btn font-semibold text-[12px] py-2 rounded-xl transition">
-                Hong Kong
-              </button>
-              <button onclick="setDashboardFilter('Nepal')" data-filter="Nepal" class="dash-filter-btn font-semibold text-[12px] py-2 rounded-xl transition">
-                Nepal
-              </button>
-              <button onclick="setDashboardFilter('India')" data-filter="India" class="dash-filter-btn font-semibold text-[12px] py-2 rounded-xl transition">
-                India
-              </button>
-            </div>
-
-            <!-- Insight Callout Box -->
-            <div style="background-color: var(--callout-bg); border-color: var(--callout-border);" class="border rounded-2xl p-3.5 flex items-start gap-3">
-              <!-- Sparkle Icon -->
-              <svg class="w-5 h-5 text-[#6366F1] dark:text-[#818CF8] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M9.5 2L11.2 7.3L16.5 9L11.2 10.7L9.5 16L7.8 10.7L2.5 9L7.8 7.3L9.5 2ZM18.5 13L19.4 15.6L22 16.5L19.4 17.4L18.5 20L17.6 17.4L15 16.5L17.6 15.6L18.5 13Z" />
-              </svg>
-              <p id="dashboard-insight-text" style="color: var(--callout-text);" class="text-[13px] leading-snug font-medium">
-                Nepal's phones sit highest on average at 1,420 m. Tap a region to compare.
-              </p>
-            </div>
-
-            <!-- CHART 1: Average altitude by region (m) -->
-            <div>
-              <h3 style="color: var(--text-primary);" class="text-[14px] font-bold mb-2.5">Average altitude by region (m)</h3>
-
-              <div style="background-color: var(--card-inner); border-color: var(--card-border);" class="theme-inner relative border rounded-2xl p-4">
-                <!-- Bar Chart Interactive Tooltip -->
-                <div id="bar-tooltip" style="background-color: var(--card-surface); color: var(--text-primary); border-color: var(--callout-border);" class="hidden absolute top-2.5 right-3 border rounded-xl px-2.5 py-1 text-[11px] font-semibold shadow-lg z-10 pointer-events-none">
-                  Nepal: 1,420 m avg
-                </div>
-
-                <!-- Chart Canvas Area -->
-                <div class="relative h-[165px] flex flex-col justify-between">
-                  <!-- Gridline 2000 -->
-                  <div class="flex items-center gap-2.5">
-                    <span style="color: var(--text-muted);" class="w-8 text-right text-[11px] font-medium">2000</span>
-                    <div style="border-color: var(--grid-line);" class="flex-1 border-b"></div>
-                  </div>
-                  <!-- Gridline 1000 -->
-                  <div class="flex items-center gap-2.5">
-                    <span style="color: var(--text-muted);" class="w-8 text-right text-[11px] font-medium">1000</span>
-                    <div style="border-color: var(--grid-line);" class="flex-1 border-b"></div>
-                  </div>
-                  <!-- Gridline 0 -->
-                  <div class="flex items-center gap-2.5">
-                    <span style="color: var(--text-muted);" class="w-8 text-right text-[11px] font-medium">0</span>
-                    <div style="border-color: var(--grid-axis);" class="flex-1 border-b"></div>
-                  </div>
-
-                  <!-- Bars Overlay -->
-                  <div class="absolute inset-y-0 left-10 right-2 flex items-end justify-around pb-[7px]">
-                    <!-- Hong Kong Bar (Warm Coral-Rose #F43F5E) -->
-                    <div id="bar-group-Hong Kong"
-                         onmouseenter="showBarTooltip('Hong Kong', '65 m avg')"
-                         onmouseleave="hideBarTooltip()"
-                         onclick="setDashboardFilter(currentDashFilter === 'Hong Kong' ? 'All' : 'Hong Kong')"
-                         class="flex flex-col items-center cursor-pointer group transition-opacity duration-300">
-                      <span style="color: var(--text-primary);" class="text-[11.5px] font-bold mb-1.5 group-hover:scale-105 transition">65</span>
-                      <div class="bar-fill w-12 rounded-full bg-gradient-to-b from-[#FB7185] to-[#E11D48] shadow-[0_2px_10px_rgba(244,63,94,0.35)]" style="height: 8px;"></div>
-                    </div>
-
-                    <!-- Nepal Bar (Electric Cyan #06B6D4) -->
-                    <div id="bar-group-Nepal"
-                         onmouseenter="showBarTooltip('Nepal', '1,420 m avg')"
-                         onmouseleave="hideBarTooltip()"
-                         onclick="setDashboardFilter(currentDashFilter === 'Nepal' ? 'All' : 'Nepal')"
-                         class="flex flex-col items-center cursor-pointer group transition-opacity duration-300">
-                      <span style="color: var(--text-primary);" class="text-[11.5px] font-bold mb-1.5 group-hover:scale-105 transition">1420</span>
-                      <div class="bar-fill w-12 rounded-t-xl rounded-b-md bg-gradient-to-b from-[#22D3EE] to-[#0891B2] shadow-[0_4px_16px_rgba(6,182,212,0.3)]" style="height: 102px;"></div>
-                    </div>
-
-                    <!-- India Bar (Golden Amber #F59E0B) -->
-                    <div id="bar-group-India"
-                         onmouseenter="showBarTooltip('India', '540 m avg')"
-                         onmouseleave="hideBarTooltip()"
-                         onclick="setDashboardFilter(currentDashFilter === 'India' ? 'All' : 'India')"
-                         class="flex flex-col items-center cursor-pointer group transition-opacity duration-300">
-                      <span style="color: var(--text-primary);" class="text-[11.5px] font-bold mb-1.5 group-hover:scale-105 transition">540</span>
-                      <div class="bar-fill w-12 rounded-t-xl rounded-b-md bg-gradient-to-b from-[#FBBF24] to-[#D97706] shadow-[0_4px_16px_rgba(245,158,11,0.28)]" style="height: 40px;"></div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- X-Axis Region Labels -->
-                <div style="color: var(--text-secondary);" class="pl-10 pr-2 mt-2 flex justify-around text-[11.5px] font-medium">
-                  <span id="bar-label-Hong Kong" class="w-18 text-center transition-colors">Hong Kong</span>
-                  <span id="bar-label-Nepal" class="w-16 text-center transition-colors">Nepal</span>
-                  <span id="bar-label-India" class="w-16 text-center transition-colors">India</span>
-                </div>
-              </div>
-
-              <!-- Share to Chat Button 1 -->
-              <button onclick="shareChartToChat('altitude')" style="background-color: var(--callout-bg); border-color: var(--callout-border);" class="mt-3 inline-flex items-center gap-2 hover:opacity-90 border text-[#6366F1] dark:text-[#818CF8] font-semibold text-[12.5px] px-3.5 py-2 rounded-xl transition active:scale-95">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                </svg>
-                <span>Share to chat</span>
-              </button>
-            </div>
-
-            <!-- CHART 2: Movement vs altitude, per student -->
-            <div class="pt-1">
-              <h3 style="color: var(--text-primary);" class="text-[14px] font-bold mb-2.5">Movement vs altitude, per student</h3>
-
-              <div style="background-color: var(--card-inner); border-color: var(--card-border);" class="theme-inner relative border rounded-2xl p-3.5">
-                <div style="color: var(--text-secondary);" class="text-[11px] font-medium mb-1 pl-1">Movement</div>
-
-                <!-- Interactive Tooltip Pill -->
-                <div id="scatter-tooltip" style="background-color: var(--card-surface); border-color: var(--callout-border);" class="hidden absolute top-3 right-3 border rounded-xl px-2.5 py-1.5 text-[11px] shadow-xl z-10 pointer-events-none">
-                  <div id="tooltip-country" style="color: var(--text-primary);" class="font-bold">Nepal · Aarav (Kathmandu)</div>
-                  <div id="tooltip-values" style="color: var(--text-secondary);">Altitude: 1,410m · Move: 7.4</div>
-                </div>
-
-                <!-- Responsive SVG Scatter Plot -->
-                <svg id="scatter-svg" viewBox="0 0 320 175" class="w-full h-auto overflow-visible select-none">
-                  <!-- Horizontal Grid Lines -->
-                  <line x1="32" y1="15" x2="305" y2="15" style="stroke: var(--grid-line);" stroke-width="1" />
-                  <line x1="32" y1="75" x2="305" y2="75" style="stroke: var(--grid-line);" stroke-width="1" />
-                  <line x1="32" y1="135" x2="305" y2="135" style="stroke: var(--grid-axis);" stroke-width="1" />
-
-                  <!-- Y-Axis Labels -->
-                  <text x="24" y="19" text-anchor="end" style="fill: var(--text-muted);" font-size="10.5" font-family="Inter">10</text>
-                  <text x="24" y="79" text-anchor="end" style="fill: var(--text-muted);" font-size="10.5" font-family="Inter">5</text>
-                  <text x="24" y="139" text-anchor="end" style="fill: var(--text-muted);" font-size="10.5" font-family="Inter">0</text>
-
-                  <!-- X-Axis Labels -->
-                  <text x="38" y="153" text-anchor="middle" style="fill: var(--text-muted);" font-size="10.5" font-family="Inter">0</text>
-                  <text x="168" y="153" text-anchor="middle" style="fill: var(--text-muted);" font-size="10.5" font-family="Inter">1000</text>
-                  <text x="295" y="153" text-anchor="middle" style="fill: var(--text-muted);" font-size="10.5" font-family="Inter">2000</text>
-                  <text x="168" y="170" text-anchor="middle" style="fill: var(--text-secondary);" font-size="10.5" font-weight="500" font-family="Inter">Altitude (m)</text>
-
-                  <!-- Scatter Dots Container -->
-                  <g id="scatter-dots-layer"></g>
-                </svg>
-              </div>
-
-              <!-- Legend -->
-              <div style="color: var(--text-secondary);" class="flex items-center gap-5 mt-3 px-1 text-[12px] font-medium">
-                <button onclick="setDashboardFilter(currentDashFilter === 'Hong Kong' ? 'All' : 'Hong Kong')" class="flex items-center gap-1.5 hover:opacity-80 transition">
-                  <span class="w-2.5 h-2.5 rounded-full bg-[#F43F5E] shadow-[0_0_8px_rgba(244,63,94,0.6)]"></span>
-                  <span>Hong Kong</span>
-                </button>
-                <button onclick="setDashboardFilter(currentDashFilter === 'Nepal' ? 'All' : 'Nepal')" class="flex items-center gap-1.5 hover:opacity-80 transition">
-                  <span class="w-2.5 h-2.5 rounded-full bg-[#06B6D4] shadow-[0_0_8px_rgba(6,182,212,0.6)]"></span>
-                  <span>Nepal</span>
-                </button>
-                <button onclick="setDashboardFilter(currentDashFilter === 'India' ? 'All' : 'India')" class="flex items-center gap-1.5 hover:opacity-80 transition">
-                  <span class="w-2.5 h-2.5 rounded-full bg-[#F59E0B] shadow-[0_0_8px_rgba(245,158,11,0.6)]"></span>
-                  <span>India</span>
-                </button>
-              </div>
-
-              <!-- Share to Chat Button 2 -->
-              <button onclick="shareChartToChat('scatter')" style="background-color: var(--callout-bg); border-color: var(--callout-border);" class="mt-3 inline-flex items-center gap-2 hover:opacity-90 border text-[#6366F1] dark:text-[#818CF8] font-semibold text-[12.5px] px-3.5 py-2 rounded-xl transition active:scale-95">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                </svg>
-                <span>Share to chat</span>
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <!-- 3. CHAT CARD -->
-        <section id="chat-section" style="background-color: var(--card-surface); border-color: var(--card-border); box-shadow: var(--card-shadow);" class="theme-surface border rounded-[24px] p-4">
-          <!-- Collapsible Card Header -->
-          <div onclick="toggleAccordion('chat-body', 'chat-chevron')" class="flex items-center justify-between cursor-pointer select-none">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-xl bg-[#6366F1]/15 border border-[#6366F1]/25 flex items-center justify-center text-[#6366F1] dark:text-[#818CF8]">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-              </div>
-              <div>
-                <h2 style="color: var(--text-primary);" class="text-[16px] font-bold leading-snug">Chat</h2>
-                <p style="color: var(--text-secondary);" class="text-[12.5px]">Class, Hong Kong, Nepal, India</p>
-              </div>
-            </div>
-
-            <svg id="chat-chevron" style="color: var(--text-secondary);" class="w-5 h-5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
-            </svg>
-          </div>
-
-          <!-- Chat Collapsible Body -->
-          <div id="chat-body" class="accordion-content mt-4 space-y-3.5" style="max-height: 1200px;">
-            <!-- Channel Filter Tabs -->
-            <div style="background-color: var(--card-inner); border-color: var(--card-border);" class="theme-inner border rounded-2xl p-1 grid grid-cols-4 gap-1">
-              <button onclick="setChatChannel('Class')" data-channel="Class" class="chat-tab-btn bg-[#6366F1] text-white font-semibold text-[12px] py-2 rounded-xl transition shadow-sm">
-                Class
-              </button>
-              <button onclick="setChatChannel('Hong Kong')" data-channel="Hong Kong" class="chat-tab-btn font-semibold text-[12px] py-2 rounded-xl transition">
-                Hong Kong
-              </button>
-              <button onclick="setChatChannel('Nepal')" data-channel="Nepal" class="chat-tab-btn font-semibold text-[12px] py-2 rounded-xl transition">
-                Nepal
-              </button>
-              <button onclick="setChatChannel('India')" data-channel="India" class="chat-tab-btn font-semibold text-[12px] py-2 rounded-xl transition">
-                India
-              </button>
-            </div>
-
-            <!-- Message Feed -->
-            <div id="chat-messages-list" class="space-y-3 max-h-[290px] overflow-y-auto no-scrollbar pr-0.5">
-              <!-- Populated dynamically via JS -->
-            </div>
-
-            <!-- Live Typing Indicator -->
-            <div id="typing-indicator" class="hidden items-center gap-2 px-2 py-1 text-[11.5px] font-medium text-[#6366F1] dark:text-[#818CF8]">
-              <span class="flex items-center gap-1">
-                <span class="typing-dot w-1.5 h-1.5 rounded-full bg-current"></span>
-                <span class="typing-dot w-1.5 h-1.5 rounded-full bg-current"></span>
-                <span class="typing-dot w-1.5 h-1.5 rounded-full bg-current"></span>
-              </span>
-              <span id="typing-label">Aarav is typing...</span>
-            </div>
-
-            <!-- Message Composer Form -->
-            <form onsubmit="handleSendMessage(event)" class="flex items-center gap-2 pt-1">
-              <input id="chat-input" type="text" placeholder="Message Class..." autocomplete="off" style="background-color: var(--card-inner); border-color: var(--card-border); color: var(--text-primary);" class="flex-1 border focus:border-[#6366F1] focus:outline-none rounded-full px-4 py-2.5 text-[13.5px] placeholder-slate-400 transition" />
-              <button type="submit" class="bg-[#6366F1] hover:bg-[#4F46E5] text-white font-bold text-[13px] px-5 py-2.5 rounded-full shadow-md transition active:scale-95">
-                Send
-              </button>
-            </form>
-
-            <!-- Clear Live Chat Status & Reset Bar -->
-            <div class="flex items-center justify-between px-1 pt-0.5">
-              <div style="color: var(--text-secondary);" class="flex items-center gap-1.5 text-[11.5px] font-medium">
-                <span class="w-2 h-2 rounded-full bg-[#10B981] shadow-[0_0_6px_rgba(16,185,129,0.7)]"></span>
-                <span>Saved locally • 4 members online</span>
-              </div>
-              <button type="button" onclick="resetChatThreads()" class="text-[11.5px] font-semibold text-[#6366F1] dark:text-[#818CF8] hover:underline">
-                Reset
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <!-- 4. SETTINGS / MY DATA CARD -->
-        <section id="settings-section" style="background-color: var(--card-surface); border-color: var(--card-border); box-shadow: var(--card-shadow);" class="theme-surface border rounded-[24px] p-4">
-          <!-- Collapsible Card Header -->
-          <div onclick="toggleAccordion('settings-body', 'settings-chevron')" class="flex items-center justify-between cursor-pointer select-none">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-xl bg-[#10B981]/15 border border-[#10B981]/25 flex items-center justify-center text-[#10B981]">
-                <!-- Shield Check Icon -->
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-              </div>
-              <div>
-                <h2 style="color: var(--text-primary);" class="text-[16px] font-bold leading-snug">My data & settings</h2>
-                <p id="settings-sensor-subtitle" style="color: var(--text-secondary);" class="text-[12.5px]">4 of 5 sensors on</p>
-              </div>
-            </div>
-
-            <svg id="settings-chevron" style="color: var(--text-secondary);" class="w-5 h-5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
-            </svg>
-          </div>
-
-          <!-- Settings Collapsible Body -->
-          <div id="settings-body" class="accordion-content mt-4 space-y-3" style="max-height: 1200px;">
-            <!-- Privacy Banner -->
-            <div style="background-color: var(--privacy-bg); border-color: var(--privacy-border);" class="border rounded-2xl p-3.5 flex items-start gap-3">
-              <svg class="w-5 h-5 text-[#10B981] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-              <p style="color: var(--privacy-text);" class="text-[13px] leading-snug font-medium">
-                You choose what to share. Your data is anonymised before classmates can see it.
-              </p>
-            </div>
-
-            <!-- Interactive Sensor Toggles + Appearance Row Container -->
-            <div id="sensor-list" style="border-color: var(--card-border);" class="divide-y">
-              <!-- Populated & updated dynamically via JS -->
-            </div>
-          </div>
-        </section>
-
-      </div>
-    </main>
-
-    <!-- Toast Notification Banner (Non-blocking feedback) -->
-    <div id="toast-banner" style="background-color: var(--card-surface); color: var(--text-primary);" class="pointer-events-none opacity-0 translate-y-3 transition-all duration-300 absolute bottom-24 left-1/2 -translate-x-1/2 z-40 backdrop-blur-md border border-[#6366F1]/50 text-xs font-semibold px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-2 whitespace-nowrap">
-      <span class="w-2 h-2 rounded-full bg-[#06B6D4]"></span>
-      <span id="toast-text">Shared chart snapshot to Class chat!</span>
     </div>
-
-    <!-- 5. FLOATING BOTTOM PILL NAVIGATION BAR -->
-    <nav aria-label="Primary Navigation" style="background-color: var(--nav-bg); border-color: var(--nav-border);" class="absolute bottom-3 left-3 right-3 z-30 backdrop-blur-xl border rounded-[28px] p-1.5 shadow-[0_14px_36px_rgba(0,0,0,0.22)] dark:shadow-[0_14px_36px_rgba(0,0,0,0.75)]">
-      <div class="grid grid-cols-4 gap-1">
-        <!-- Home Tab -->
-        <button onclick="navigateTab('home')" data-nav="home" class="nav-pill-btn flex flex-col items-center justify-center py-2 rounded-[22px] bg-[#6366F1]/15 text-[#6366F1] dark:text-[#818CF8] transition">
-          <svg class="w-5 h-5 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-          </svg>
-          <span class="text-[11px] font-bold">Home</span>
-        </button>
-
-        <!-- Data Tab -->
-        <button onclick="navigateTab('data')" data-nav="data" class="nav-pill-btn flex flex-col items-center justify-center py-2 rounded-[22px] text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition">
-          <svg class="w-5 h-5 mb-0.5" viewBox="0 0 24 24" fill="currentColor">
-            <rect x="4" y="13" width="3.2" height="7" rx="1" />
-            <rect x="10.4" y="6" width="3.2" height="14" rx="1" />
-            <rect x="16.8" y="10" width="3.2" height="10" rx="1" />
-          </svg>
-          <span class="text-[11px] font-semibold">Data</span>
-        </button>
-
-        <!-- Chat Tab -->
-        <button onclick="navigateTab('chat')" data-nav="chat" class="nav-pill-btn flex flex-col items-center justify-center py-2 rounded-[22px] text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition">
-          <svg class="w-5 h-5 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-          </svg>
-          <span class="text-[11px] font-semibold">Chat</span>
-        </button>
-
-        <!-- Settings Tab -->
-        <button onclick="navigateTab('settings')" data-nav="settings" class="nav-pill-btn flex flex-col items-center justify-center py-2 rounded-[22px] text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition">
-          <svg class="w-5 h-5 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414m0-11.314l1.414 1.414m11.314 11.314l1.414 1.414M12 8a4 4 0 100 8 4 4 0 000-8z" />
-          </svg>
-          <span class="text-[11px] font-semibold">Settings</span>
-        </button>
-      </div>
-    </nav>
-
   </div>
 
-  <!-- Application State & Interactive Logic -->
-  <script>
-    // ==========================================
-    // 1. STATE, STORAGE KEYS & MOCK DATA
-    // ==========================================
-    const STORAGE_CHAT_KEY = 'monash_cohort_chat_v1';
-    const STORAGE_THEME_KEY = 'monash_cohort_theme_v1';
+  <div class="actions">
+    <button class="action" onclick="openTransaction('income')">
+      <b>↗</b>Add income
+    </button>
+    <button class="action" onclick="openTransaction('expense')">
+      <b>↘</b>Add expense
+    </button>
+    <button class="action" onclick="showPage('goals')">
+      <b>◎</b>My goals
+    </button>
+  </div>
 
-    let currentDashFilter = 'All';
-    let currentChatChannel = 'Class';
-    let isDarkMode = true;
-    let replyTimeout = null;
+  <div class="between">
+    <h2>Spending overview</h2>
+    <small>This month</small>
+  </div>
+  <div class="card">
+    <div class="between">
+      <div>
+        <small>Total spent</small>
+        <h2 id="monthlySpending">$0</h2>
+      </div>
+      <span>📊</span>
+    </div>
+    <div id="chart" class="chart"></div>
+    <div class="chart-labels">
+      <span>Mon</span><span>Tue</span><span>Wed</span>
+      <span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+    </div>
+  </div>
 
-    const dashboardInsights = {
-      All: "Nepal's phones sit highest on average at 1,420 m. Tap a region to compare.",
-      'Hong Kong': "Hong Kong averages 65 m — coastal campuses near Victoria Harbour and Kowloon sit near sea level.",
-      Nepal: "Nepal averages 1,420 m — Kathmandu Valley and Pokhara students record the highest elevations.",
-      India: "India averages 540 m — plateau cities like Bengaluru and Pune sit well above coastal baselines."
-    };
+  <div class="between">
+    <h2>Recent activity</h2>
+    <button class="secondary" onclick="showPage('activity')">See all</button>
+  </div>
+  <div class="card" id="recentList"></div>
+</section>
 
-    // Scatter plot anonymized student readings (Coral-Rose = Hong Kong, Cyan = Nepal, Amber = India)
-    const scatterStudents = [
-      // Hong Kong cluster (~30m - 140m, Warm Coral-Rose #F43F5E)
-      { country: 'Hong Kong', color: '#F43F5E', alt: 32, move: 8.2, label: 'Chloe · Kowloon' },
-      { country: 'Hong Kong', color: '#F43F5E', alt: 58, move: 7.3, label: 'Mei · Central' },
-      { country: 'Hong Kong', color: '#F43F5E', alt: 85, move: 6.2, label: 'Ethan · Sha Tin' },
-      { country: 'Hong Kong', color: '#F43F5E', alt: 42, move: 5.1, label: 'Zoe · Tsuen Wan' },
-      { country: 'Hong Kong', color: '#F43F5E', alt: 125, move: 4.1, label: 'Liam · Mid-Levels' },
-      { country: 'Hong Kong', color: '#F43F5E', alt: 68, move: 2.9, label: 'Hannah · Wan Chai' },
-      // India cluster (~320m - 920m, Golden Amber #F59E0B)
-      { country: 'India', color: '#F59E0B', alt: 910, move: 7.4, label: 'Priya · Bengaluru' },
-      { country: 'India', color: '#F59E0B', alt: 560, move: 6.3, label: 'Arjun · Pune' },
-      { country: 'India', color: '#F59E0B', alt: 510, move: 5.2, label: 'Dev · Hyderabad' },
-      { country: 'India', color: '#F59E0B', alt: 340, move: 4.0, label: 'Ananya · Jaipur' },
-      { country: 'India', color: '#F59E0B', alt: 880, move: 3.1, label: 'Kabir · Bengaluru' },
-      { country: 'India', color: '#F59E0B', alt: 545, move: 2.1, label: 'Neha · Pune' },
-      // Nepal cluster (~1,300m - 1,850m, Electric Cyan #06B6D4)
-      { country: 'Nepal', color: '#06B6D4', alt: 1810, move: 8.7, label: 'Rohan · Nagarkot' },
-      { country: 'Nepal', color: '#06B6D4', alt: 1410, move: 7.9, label: 'Aarav · Kathmandu' },
-      { country: 'Nepal', color: '#06B6D4', alt: 1460, move: 6.8, label: 'Sita · Lalitpur' },
-      { country: 'Nepal', color: '#06B6D4', alt: 1320, move: 5.8, label: 'Bikash · Bhaktapur' },
-      { country: 'Nepal', color: '#06B6D4', alt: 1640, move: 4.9, label: 'Nisha · Dhulikhel' },
-      { country: 'Nepal', color: '#06B6D4', alt: 1380, move: 3.8, label: 'Kiran · Kathmandu' }
-    ];
+<section id="activity" class="page">
+  <h1>Transactions</h1>
+  <p class="muted">Every dollar has a story.</p>
+  <button class="primary" onclick="openTransaction('expense')">
+    + New transaction
+  </button>
+  <div class="card">
+    <input id="search" placeholder="Search transactions..."
+      oninput="render()">
+    <select id="filter" onchange="render()">
+      <option value="all">All transactions</option>
+      <option value="income">Income only</option>
+      <option value="expense">Expenses only</option>
+    </select>
+    <div id="allTransactions"></div>
+  </div>
+</section>
 
-    // Default pre-populated threads for Hong Kong, Nepal & India cohort
-    const defaultChatThreads = {
-      Class: [
-        {
-          sender: 'Aarav · Kathmandu',
-          initial: 'A',
-          avatarBg: '#0891B2',
-          text: 'Has anyone compared the Kathmandu and Hong Kong altitude bars yet?',
-          time: '9:02'
-        },
-        {
-          sender: 'Chloe · Hong Kong',
-          initial: 'C',
-          avatarBg: '#E11D48',
-          text: 'Yeah! We are right near sea level at 65m while Nepal averages 1,420m.',
-          time: '9:04'
-        },
-        {
-          sender: 'Priya · Bengaluru',
-          initial: 'P',
-          avatarBg: '#D97706',
-          text: 'Bengaluru sits right in the middle around 910m on the Deccan plateau!',
-          time: '9:06'
-        }
-      ],
-      'Hong Kong': [
-        {
-          sender: 'Mei · Kowloon',
-          initial: 'M',
-          avatarBg: '#E11D48',
-          text: 'Morning from Kowloon! Riding the MTR gives really smooth accelerometer readings.',
-          time: '8:45'
-        },
-        {
-          sender: 'Chloe · Hong Kong',
-          initial: 'C',
-          avatarBg: '#F43F5E',
-          text: 'Mine jumped slightly when taking the escalator up Mid-Levels.',
-          time: '8:52'
-        }
-      ],
-      Nepal: [
-        {
-          sender: 'Aarav · Kathmandu',
-          initial: 'A',
-          avatarBg: '#0891B2',
-          text: 'Checking in from Kathmandu Valley — sensor reading steady at 1,410m.',
-          time: '8:48'
-        },
-        {
-          sender: 'Rohan · Pokhara',
-          initial: 'R',
-          avatarBg: '#06B6D4',
-          text: 'Walking near Phewa Lake shows high movement score with lower valley altitude.',
-          time: '8:55'
-        }
-      ],
-      India: [
-        {
-          sender: 'Priya · Bengaluru',
-          initial: 'P',
-          avatarBg: '#D97706',
-          text: 'Campus commute in Bengaluru is showing 0.14g average movement today.',
-          time: '9:01'
-        }
-      ]
-    };
+<section id="budgets" class="page">
+  <h1>My budgets</h1>
+  <p class="muted">Spend smart, live more.</p>
+  <div class="card">
+    <h2>Monthly spending limit</h2>
+    <label>Budget amount ($)</label>
+    <input type="number" id="budgetInput" min="1">
+    <button class="primary" onclick="saveBudget()">Save budget</button>
+  </div>
+  <div class="card">
+    <div class="between">
+      <strong>Budget used</strong>
+      <strong id="budgetPercent">0%</strong>
+    </div>
+    <div class="progress">
+      <div class="fill" id="budgetFill"></div>
+    </div>
+    <div class="between">
+      <small id="budgetSpent">$0 spent</small>
+      <small id="budgetRemaining">$0 remaining</small>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Money tip 💡</h2>
+    <p class="muted">
+      Try the 50/30/20 approach: 50% for needs,
+      30% for wants and 20% for savings.
+    </p>
+  </div>
+</section>
 
-    // Context-aware peer replies per channel
-    const peerResponders = {
-      Class: [
-        { sender: 'Aarav · Kathmandu', initial: 'A', avatarBg: '#0891B2', replies: [
-          'Great observation! Notice how movement stays balanced across all three elevation bands.',
-          'Totally agree — sharing live barometer & GPS readings makes geography way clearer.'
-        ]},
-        { sender: 'Chloe · Hong Kong', initial: 'C', avatarBg: '#E11D48', replies: [
-          'Our Hong Kong cluster is super tight around 40–90m near the harbour!',
-          'Thanks for sharing that — let us compare afternoon movement scores next.'
-        ]}
-      ],
-      'Hong Kong': [
-        { sender: 'Mei · Kowloon', initial: 'M', avatarBg: '#E11D48', replies: [
-          'Confirmed on my device too! Harbour elevation stays right around 55m.',
-          'Nice insight — Kowloon and Central sensors are syncing cleanly.'
-        ]}
-      ],
-      Nepal: [
-        { sender: 'Rohan · Pokhara', initial: 'R', avatarBg: '#06B6D4', replies: [
-          'Spot on! High-altitude readings in Nepal really stand out on the scatter plot.',
-          'Just checked my altitude sensor — still holding steady above 1,400m.'
-        ]}
-      ],
-      India: [
-        { sender: 'Priya · Bengaluru', initial: 'P', avatarBg: '#D97706', replies: [
-          'Same here in Bengaluru! Plateau elevation makes a noticeable difference vs coastal cities.',
-          'Good catch — our India cohort spans both coastal and plateau altitudes.'
-        ]}
-      ]
-    };
+<section id="goals" class="page">
+  <h1>Savings goals</h1>
+  <p class="muted">Big dreams start with small steps.</p>
+  <button class="primary" onclick="openGoal()">+ Create goal</button>
+  <div id="goalList"></div>
+</section>
 
-    let chatThreads = loadChatThreads();
+<section id="settings" class="page">
+  <h1>Settings</h1>
+  <p class="muted">Make Velora yours.</p>
+  <div class="card">
+    <h2>Appearance</h2>
+    <button class="primary" onclick="toggleTheme()">
+      ☾ Switch light / dark mode
+    </button>
+  </div>
+  <div class="card">
+    <h2>Your data</h2>
+    <p class="muted">
+      Your transactions and goals are stored in this browser.
+      No bank account is connected.
+    </p>
+    <button class="secondary" onclick="exportData()">
+      Export my data
+    </button>
+    <button class="secondary" onclick="resetData()">
+      Reset demo
+    </button>
+  </div>
+  <div class="card">
+    <strong>✦ Velora Finance</strong>
+    <p class="muted">Mobile prototype · Version 1.0</p>
+  </div>
+</section>
+</div>
 
-    // Privacy sensor state
-    const sensors = [
-      {
-        id: 'location',
-        name: 'Location',
-        onText: 'Kathmandu, Nepal',
-        offText: 'Not shared',
-        enabled: true,
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />`
-      },
-      {
-        id: 'provider',
-        name: 'Provider',
-        onText: 'Ncell 5G',
-        offText: 'Not shared',
-        enabled: false,
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M6 18v-3m4 3v-6m4 6V6m4 12V3" />`
-      },
-      {
-        id: 'ip',
-        name: 'IP address',
-        onText: 'Hidden from classmates',
-        offText: 'Not shared',
-        enabled: true,
-        icon: `<circle cx="12" cy="12" r="9" /><path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M11.5 3a17 17 0 000 18M12.5 3a17 17 0 010 18" />`
-      },
-      {
-        id: 'accelerometer',
-        name: 'Accelerometer',
-        onText: '0.12 g',
-        offText: 'Paused',
-        enabled: true,
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M3 12h3l2.5-4 4 8 2.5-4H21" />`
-      },
-      {
-        id: 'altitude',
-        name: 'Altitude',
-        onText: '1,410 m',
-        offText: 'Paused',
-        enabled: true,
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M3 18l6-9 4 5 3-4 5 8H3z" />`
-      }
-    ];
+<nav>
+  <button class="active" data-page="home" onclick="showPage('home')">
+    <span>⌂</span>Home
+  </button>
+  <button data-page="activity" onclick="showPage('activity')">
+    <span>⇄</span>Activity
+  </button>
+  <button data-page="budgets" onclick="showPage('budgets')">
+    <span>▥</span>Budget
+  </button>
+  <button data-page="goals" onclick="showPage('goals')">
+    <span>◎</span>Goals
+  </button>
+  <button data-page="settings" onclick="showPage('settings')">
+    <span>⚙</span>Settings
+  </button>
+</nav>
 
-    // ==========================================
-    // 2. NIGHT & DAY THEME MANAGEMENT
-    // ==========================================
-    function initTheme() {
-      try {
-        const savedTheme = localStorage.getItem(STORAGE_THEME_KEY);
-        isDarkMode = savedTheme ? savedTheme === 'dark' : true;
-      } catch (e) {
-        isDarkMode = true;
-      }
-      applyTheme();
-    }
+<div id="transactionModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>New transaction</h2>
+      <button class="close" onclick="closeModals()">×</button>
+    </div>
+    <form id="transactionForm">
+      <label>Type</label>
+      <select id="transactionType">
+        <option value="expense">Expense</option>
+        <option value="income">Income</option>
+      </select>
+      <label>Description</label>
+      <input id="description" placeholder="e.g. Coffee" required>
+      <label>Amount ($)</label>
+      <input id="transactionAmount" type="number"
+        min="0.01" step="0.01" required>
+      <label>Category</label>
+      <select id="category">
+        <option>Food</option>
+        <option>Shopping</option>
+        <option>Transport</option>
+        <option>Bills</option>
+        <option>Salary</option>
+        <option>Other</option>
+      </select>
+      <button class="primary" type="submit">Save transaction</button>
+    </form>
+  </div>
+</div>
 
-    function toggleTheme() {
-      isDarkMode = !isDarkMode;
-      try {
-        localStorage.setItem(STORAGE_THEME_KEY, isDarkMode ? 'dark' : 'light');
-      } catch (e) {}
-      applyTheme();
-      showToast(isDarkMode ? 'Night Mode enabled' : 'Day Mode enabled');
-    }
+<div id="goalModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Create savings goal</h2>
+      <button class="close" onclick="closeModals()">×</button>
+    </div>
+    <form id="goalForm">
+      <label>Goal name</label>
+      <input id="goalName" placeholder="e.g. Holiday" required>
+      <label>Target amount ($)</label>
+      <input id="goalTarget" type="number" min="1" required>
+      <button class="primary" type="submit">Create goal</button>
+    </form>
+  </div>
+</div>
 
-    function applyTheme() {
-      const htmlEl = document.documentElement;
-      const sunIcon = document.getElementById('header-sun-icon');
-      const moonIcon = document.getElementById('header-moon-icon');
+<script>
+const $ = id => document.getElementById(id);
+const money = n => new Intl.NumberFormat('en-AU', {
+  style:'currency',currency:'AUD'
+}).format(n);
 
-      if (isDarkMode) {
-        htmlEl.classList.add('dark');
-        if (sunIcon) sunIcon.classList.remove('hidden');
-        if (moonIcon) moonIcon.classList.add('hidden');
-      } else {
-        htmlEl.classList.remove('dark');
-        if (sunIcon) sunIcon.classList.add('hidden');
-        if (moonIcon) moonIcon.classList.remove('hidden');
-      }
+const sample = [
+  {id:1,name:'Monthly salary',amount:4200,type:'income',
+   category:'Salary',date:new Date().toISOString()},
+  {id:2,name:'Groceries',amount:85,type:'expense',
+   category:'Food',date:new Date().toISOString()},
+  {id:3,name:'Coffee',amount:6.50,type:'expense',
+   category:'Food',date:new Date().toISOString()},
+  {id:4,name:'Transport',amount:35,type:'expense',
+   category:'Transport',date:new Date().toISOString()}
+];
 
-      // Refresh dynamic filter tabs & settings appearance toggle
-      setDashboardFilter(currentDashFilter);
-      setChatChannel(currentChatChannel);
-      renderSensors();
-    }
+let transactions = JSON.parse(
+  localStorage.getItem('velora_transactions') || 'null'
+) ?? sample;
 
-    // ==========================================
-    // 3. DASHBOARD & CHARTS LOGIC
-    // ==========================================
-    function showBarTooltip(country, valueText) {
-      const tip = document.getElementById('bar-tooltip');
-      tip.textContent = `${country}: ${valueText}`;
-      tip.classList.remove('hidden');
-    }
+let goals = JSON.parse(
+  localStorage.getItem('velora_goals') || '[]'
+);
 
-    function hideBarTooltip() {
-      document.getElementById('bar-tooltip').classList.add('hidden');
-    }
+let budget = Number(localStorage.getItem('velora_budget') || 1500);
 
-    function setDashboardFilter(country) {
-      currentDashFilter = country;
+if(localStorage.getItem('velora_theme') === 'dark')
+  document.body.classList.add('dark');
 
-      // Update active filter pill button styling
-      document.querySelectorAll('.dash-filter-btn').forEach(btn => {
-        const isSelected = btn.getAttribute('data-filter') === country;
-        if (isSelected) {
-          btn.className = 'dash-filter-btn bg-[#6366F1] text-white font-semibold text-[12px] py-2 rounded-xl transition shadow-sm';
-        } else {
-          btn.className = 'dash-filter-btn text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-semibold text-[12px] py-2 rounded-xl transition';
-        }
-      });
+function save() {
+  localStorage.setItem('velora_transactions',JSON.stringify(transactions));
+  localStorage.setItem('velora_goals',JSON.stringify(goals));
+  localStorage.setItem('velora_budget',budget);
+}
 
-      // Update dynamic insight callout
-      document.getElementById('dashboard-insight-text').textContent = dashboardInsights[country];
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(el =>
+    el.classList.toggle('active',el.id===page)
+  );
+  document.querySelectorAll('nav button').forEach(el =>
+    el.classList.toggle('active',el.dataset.page===page)
+  );
+  window.scrollTo(0,0);
+  render();
+}
 
-      // Update Bar Chart emphasis
-      ['Hong Kong', 'Nepal', 'India'].forEach(c => {
-        const group = document.getElementById(`bar-group-${c}`);
-        const label = document.getElementById(`bar-label-${c}`);
-        if (country === 'All' || country === c) {
-          group.style.opacity = '1';
-          label.style.color = country === c ? 'var(--text-primary)' : 'var(--text-secondary)';
-          label.classList.toggle('font-bold', country === c);
-        } else {
-          group.style.opacity = '0.28';
-          label.style.color = 'var(--text-secondary)';
-          label.classList.remove('font-bold');
-        }
-      });
+function openTransaction(type) {
+  $('transactionType').value=type;
+  $('transactionModal').classList.add('open');
+}
 
-      // Update Scatter Plot dot emphasis
-      renderScatterDots();
-    }
+function openGoal() {
+  $('goalModal').classList.add('open');
+}
 
-    function renderScatterDots() {
-      const layer = document.getElementById('scatter-dots-layer');
-      layer.innerHTML = '';
+function closeModals() {
+  document.querySelectorAll('.modal').forEach(el =>
+    el.classList.remove('open')
+  );
+}
 
-      scatterStudents.forEach(student => {
-        // Map altitude (0..2000) to SVG X (38..295)
-        const cx = 38 + (student.alt / 2000) * (295 - 38);
-        // Map movement (0..10) to SVG Y (135..15)
-        const cy = 135 - (student.move / 10) * (135 - 15);
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;',
+    '"':'&quot;',"'":'&#39;'
+  }[c]));
+}
 
-        const isDimmed = currentDashFilter !== 'All' && currentDashFilter !== student.country;
+$('transactionForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const amount=Number($('transactionAmount').value);
+  if(!Number.isFinite(amount)||amount<=0)return;
+  transactions.unshift({
+    id:Date.now(),
+    name:$('description').value.trim(),
+    amount,
+    type:$('transactionType').value,
+    category:$('category').value,
+    date:new Date().toISOString()
+  });
+  save();
+  e.target.reset();
+  closeModals();
+  render();
+});
 
-        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        circle.setAttribute('cx', cx.toFixed(1));
-        circle.setAttribute('cy', cy.toFixed(1));
-        circle.setAttribute('r', isDimmed ? '4.5' : '5.5');
-        circle.setAttribute('fill', student.color);
-        circle.setAttribute('opacity', isDimmed ? '0.22' : '0.95');
-        circle.setAttribute('class', 'scatter-dot');
+function deleteTransaction(id) {
+  if(!confirm('Delete this transaction?'))return;
+  transactions=transactions.filter(t=>t.id!==id);
+  save();render();
+}
 
-        // Hover & tap tooltip handlers
-        const showTip = () => {
-          const tip = document.getElementById('scatter-tooltip');
-          document.getElementById('tooltip-country').textContent = `${student.country} · ${student.label}`;
-          document.getElementById('tooltip-values').textContent = `Altitude: ${student.alt.toLocaleString()}m · Move: ${student.move}`;
-          tip.classList.remove('hidden');
-        };
-        const hideTip = () => {
-          document.getElementById('scatter-tooltip').classList.add('hidden');
-        };
+function transactionHTML(t) {
+  const icons={
+    Food:'🍔',Shopping:'🛍️',Transport:'🚗',
+    Bills:'💡',Salary:'💼',Other:'💳'
+  };
+  const sign=t.type==='income'?'+':'−';
+  return `<div class="transaction">
+    <div class="symbol">${icons[t.category]||'💳'}</div>
+    <div class="details">
+      <strong>${escapeHTML(t.name)}</strong>
+      <small>${escapeHTML(t.category)} ·
+      ${new Date(t.date).toLocaleDateString('en-AU')}</small>
+    </div>
+    <div>
+      <div class="money ${t.type==='income'?'positive':'negative'}">
+        ${sign}${money(t.amount)}
+      </div>
+      <button class="secondary"
+        onclick="deleteTransaction(${Number(t.id)})">×</button>
+    </div>
+  </div>`;
+}
 
-        circle.addEventListener('mouseenter', showTip);
-        circle.addEventListener('click', showTip);
-        circle.addEventListener('mouseleave', hideTip);
+function render() {
+  const income=transactions
+    .filter(t=>t.type==='income')
+    .reduce((s,t)=>s+t.amount,0);
+  const expenses=transactions
+    .filter(t=>t.type==='expense')
+    .reduce((s,t)=>s+t.amount,0);
 
-        layer.appendChild(circle);
-      });
-    }
+  const now=new Date();
+  const monthExpenses=transactions.filter(t=>{
+    const d=new Date(t.date);
+    return t.type==='expense' &&
+      d.getMonth()===now.getMonth() &&
+      d.getFullYear()===now.getFullYear();
+  });
 
-    function shareChartToChat(chartType) {
-      const summary = chartType === 'altitude'
-        ? '📊 Shared Altitude Chart: Nepal leads at 1,420m avg, India at 540m, and Hong Kong at 65m.'
-        : '📈 Shared Movement vs Altitude Plot: Comparing 18 student sensor readings across Hong Kong, Nepal & India.';
+  const spent=monthExpenses.reduce((s,t)=>s+t.amount,0);
 
-      const now = new Date();
-      const timeStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
+  $('balance').textContent=money(income-expenses);
+  $('income').textContent=money(income);
+  $('expenses').textContent=money(expenses);
+  $('monthlySpending').textContent=money(spent);
 
-      chatThreads[currentChatChannel].push({
-        sender: 'You · ST',
-        initial: 'ST',
-        avatarBg: '#4F46E5',
-        text: summary,
-        time: timeStr,
-        isSharedCard: true
-      });
+  $('recentList').innerHTML=transactions.length
+    ? transactions.slice(0,4).map(transactionHTML).join('')
+    : '<div class="empty">No transactions yet</div>';
 
-      saveChatThreads();
-      renderChatMessages();
-      showToast(`Shared chart to ${currentChatChannel} chat!`);
-      navigateTab('chat');
-      triggerPeerReply(currentChatChannel);
-    }
+  const query=$('search').value.toLowerCase();
+  const filter=$('filter').value;
+  const filtered=transactions.filter(t=>
+    t.name.toLowerCase().includes(query) &&
+    (filter==='all'||t.type===filter)
+  );
+  $('allTransactions').innerHTML=filtered.length
+    ? filtered.map(transactionHTML).join('')
+    : '<div class="empty">No matching transactions</div>';
 
-    // ==========================================
-    // 4. REAL / PERSISTENT COLLABORATIVE CHAT
-    // ==========================================
-    function loadChatThreads() {
-      try {
-        const raw = localStorage.getItem(STORAGE_CHAT_KEY);
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          if (parsed && parsed.Class && parsed['Hong Kong'] && parsed.Nepal && parsed.India) {
-            return parsed;
-          }
-        }
-      } catch (e) {}
-      return JSON.parse(JSON.stringify(defaultChatThreads));
-    }
+  $('budgetInput').value=budget;
+  const percent=budget>0?spent/budget*100:0;
+  $('budgetPercent').textContent=Math.round(percent)+'%';
+  $('budgetFill').style.width=Math.min(percent,100)+'%';
+  $('budgetSpent').textContent=money(spent)+' spent';
+  $('budgetRemaining').textContent=
+    money(Math.max(0,budget-spent))+' remaining';
 
-    function saveChatThreads() {
-      try {
-        localStorage.setItem(STORAGE_CHAT_KEY, JSON.stringify(chatThreads));
-      } catch (e) {}
-    }
+  renderChart();
+  renderGoals();
+}
 
-    function resetChatThreads() {
-      chatThreads = JSON.parse(JSON.stringify(defaultChatThreads));
-      saveChatThreads();
-      renderChatMessages();
-      showToast('Chat reset to initial cohort messages');
-    }
+function renderChart() {
+  const days=Array(7).fill(0);
+  const now=new Date();
+  const start=new Date(now);
+  start.setDate(now.getDate()-6);
+  start.setHours(0,0,0,0);
 
-    function setChatChannel(channel) {
-      currentChatChannel = channel;
+  transactions.filter(t=>t.type==='expense').forEach(t=>{
+    const d=new Date(t.date);
+    const index=Math.floor((d-start)/86400000);
+    if(index>=0&&index<7)days[index]+=t.amount;
+  });
 
-      document.querySelectorAll('.chat-tab-btn').forEach(btn => {
-        const isSelected = btn.getAttribute('data-channel') === channel;
-        if (isSelected) {
-          btn.className = 'chat-tab-btn bg-[#6366F1] text-white font-semibold text-[12px] py-2 rounded-xl transition shadow-sm';
-        } else {
-          btn.className = 'chat-tab-btn text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-semibold text-[12px] py-2 rounded-xl transition';
-        }
-      });
+  const max=Math.max(...days,1);
+  $('chart').innerHTML=days.map(v=>
+    `<div class="bar" title="${money(v)}"
+      style="height:${Math.max(4,v/max*100)}%"></div>`
+  ).join('');
 
-      const inputEl = document.getElementById('chat-input');
-      if (inputEl) {
-        inputEl.placeholder = `Message ${channel}...`;
-      }
+  const labels=document.querySelectorAll('.chart-labels span');
+  labels.forEach((el,i)=>{
+    const d=new Date(start);
+    d.setDate(start.getDate()+i);
+    el.textContent=d.toLocaleDateString('en-AU',{weekday:'short'});
+  });
+}
 
-      renderChatMessages();
-    }
+function saveBudget() {
+  const value=Number($('budgetInput').value);
+  if(!Number.isFinite(value)||value<=0) {
+    alert('Enter a valid budget');
+    return;
+  }
+  budget=value;
+  save();render();
+  alert('Budget saved!');
+}
 
-    function renderChatMessages() {
-      const container = document.getElementById('chat-messages-list');
-      const messages = chatThreads[currentChatChannel] || [];
+$('goalForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const target=Number($('goalTarget').value);
+  if(!Number.isFinite(target)||target<=0)return;
+  goals.push({
+    id:Date.now(),
+    name:$('goalName').value.trim(),
+    target,
+    saved:0
+  });
+  save();
+  e.target.reset();
+  closeModals();
+  render();
+});
 
-      container.innerHTML = messages.map(msg => `
-        <div class="flex items-end gap-2.5 animate-[fadeIn_0.25s_ease]">
-          <div class="w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-white font-bold text-xs shadow-sm" style="background-color: ${msg.avatarBg};">
-            ${msg.initial}
+function addSavings(id) {
+  const goal=goals.find(g=>g.id===id);
+  if(!goal)return;
+  const value=prompt('How much would you like to add?');
+  if(value===null)return;
+  const amount=Number(value);
+  if(!Number.isFinite(amount)||amount<=0) {
+    alert('Enter a valid amount');
+    return;
+  }
+  goal.saved=Math.min(goal.target,goal.saved+amount);
+  save();render();
+}
+
+function deleteGoal(id) {
+  if(!confirm('Delete this goal?'))return;
+  goals=goals.filter(g=>g.id!==id);
+  save();render();
+}
+
+function renderGoals() {
+  $('goalList').innerHTML=goals.length
+    ? goals.map(g=>{
+      const percent=Math.min(100,g.saved/g.target*100);
+      return `<div class="card">
+        <div class="between">
+          <div>
+            <div class="goal-icon">🎯</div>
+            <h2>${escapeHTML(g.name)}</h2>
           </div>
-          <div style="background-color: ${msg.isSharedCard ? 'var(--callout-bg)' : 'var(--card-inner)'}; border-color: ${msg.isSharedCard ? 'var(--callout-border)' : 'var(--card-border)'};" class="flex-1 border rounded-2xl px-3.5 py-2.5">
-            <div style="color: var(--text-secondary);" class="text-[11.5px] font-semibold mb-1">${escapeHTML(msg.sender)}</div>
-            <div style="color: var(--text-primary);" class="text-[13.5px] leading-snug">${escapeHTML(msg.text)}</div>
-            <div style="color: var(--text-muted);" class="text-right text-[10.5px] mt-1">${msg.time}</div>
-          </div>
+          <strong>${Math.round(percent)}%</strong>
         </div>
-      `).join('');
-
-      container.scrollTop = container.scrollHeight;
-    }
-
-    function handleSendMessage(event) {
-      event.preventDefault();
-      const input = document.getElementById('chat-input');
-      const text = input.value.trim();
-      if (!text) return;
-
-      const now = new Date();
-      const timeStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
-
-      chatThreads[currentChatChannel].push({
-        sender: 'You · ST',
-        initial: 'ST',
-        avatarBg: '#4F46E5',
-        text: text,
-        time: timeStr
-      });
-
-      input.value = '';
-      saveChatThreads();
-      renderChatMessages();
-      triggerPeerReply(currentChatChannel);
-    }
-
-    function triggerPeerReply(channel) {
-      const pool = peerResponders[channel] || peerResponders.Class;
-      const responder = pool[Math.floor(Math.random() * pool.length)];
-      const replyText = responder.replies[Math.floor(Math.random() * responder.replies.length)];
-
-      const typingEl = document.getElementById('typing-indicator');
-      const typingLabel = document.getElementById('typing-label');
-      typingLabel.textContent = `${responder.sender.split(' · ')[0]} is typing...`;
-      typingEl.classList.remove('hidden');
-      typingEl.classList.add('flex');
-
-      clearTimeout(replyTimeout);
-      replyTimeout = setTimeout(() => {
-        typingEl.classList.add('hidden');
-        typingEl.classList.remove('flex');
-
-        const now = new Date();
-        const timeStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
-
-        chatThreads[channel].push({
-          sender: responder.sender,
-          initial: responder.initial,
-          avatarBg: responder.avatarBg,
-          text: replyText,
-          time: timeStr
-        });
-
-        saveChatThreads();
-        if (currentChatChannel === channel) {
-          renderChatMessages();
-        }
-      }, 1200);
-    }
-
-    function escapeHTML(str) {
-      const div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
-    }
-
-    // ==========================================
-    // 5. SETTINGS / SENSOR PRIVACY & APPEARANCE TOGGLES
-    // ==========================================
-    function renderSensors() {
-      const list = document.getElementById('sensor-list');
-      const activeCount = sensors.filter(s => s.enabled).length;
-
-      // Update header lock badge & card subtitle dynamically
-      document.getElementById('header-sensor-count').textContent = `${activeCount} on`;
-      document.getElementById('settings-sensor-subtitle').textContent = `${activeCount} of ${sensors.length} sensors on`;
-
-      // Appearance (Night / Day Mode) Row at top of Settings list
-      const appearanceRow = `
-        <div class="flex items-center justify-between py-3.5 first:pt-2">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-[#6366F1]/15 border border-[#6366F1]/25 text-[#6366F1] dark:text-[#818CF8] flex items-center justify-center transition-colors">
-              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                ${isDarkMode
-                  ? '<path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />'
-                  : '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />'}
-              </svg>
-            </div>
-            <div>
-              <div style="color: var(--text-primary);" class="text-[14.5px] font-bold leading-tight">Night mode</div>
-              <div style="color: var(--text-secondary);" class="text-[12.5px] mt-0.5">${isDarkMode ? 'Obsidian dark theme' : 'Alabaster day theme'}</div>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            role="switch"
-            aria-checked="${isDarkMode}"
-            aria-label="Toggle Night Mode"
-            onclick="toggleTheme()"
-            style="background-color: ${isDarkMode ? '#6366F1' : 'var(--toggle-off)'};"
-            class="relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
-          >
-            <span class="pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${isDarkMode ? 'translate-x-5' : 'translate-x-0'}"></span>
-          </button>
+        <div class="progress">
+          <div class="fill" style="width:${percent}%"></div>
         </div>
-      `;
+        <p class="muted">${money(g.saved)} of ${money(g.target)}</p>
+        <button class="primary" onclick="addSavings(${Number(g.id)})">
+          + Add savings
+        </button>
+        <p><button class="secondary"
+          onclick="deleteGoal(${Number(g.id)})">Delete goal</button></p>
+      </div>`;
+    }).join('')
+    : '<div class="card empty">No goals yet. Create your first one!</div>';
+}
 
-      const sensorRows = sensors.map((sensor, idx) => `
-        <div class="flex items-center justify-between py-3.5 last:pb-1">
-          <div class="flex items-center gap-3">
-            <div style="${sensor.enabled ? '' : 'background-color: var(--card-inner); border-color: var(--card-border);'}" class="w-10 h-10 rounded-xl ${sensor.enabled ? 'bg-[#10B981]/15 border border-[#10B981]/25 text-[#10B981]' : 'border text-slate-400'} flex items-center justify-center transition-colors">
-              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                ${sensor.icon}
-              </svg>
-            </div>
-            <div>
-              <div style="color: var(--text-primary);" class="text-[14.5px] font-bold leading-tight">${sensor.name}</div>
-              <div style="color: var(--text-secondary);" class="text-[12.5px] mt-0.5">${sensor.enabled ? sensor.onText : sensor.offText}</div>
-            </div>
-          </div>
+function toggleTheme() {
+  document.body.classList.toggle('dark');
+  localStorage.setItem('velora_theme',
+    document.body.classList.contains('dark')?'dark':'light');
+}
 
-          <!-- Accessible Toggle Switch -->
-          <button
-            type="button"
-            role="switch"
-            aria-checked="${sensor.enabled}"
-            aria-label="Toggle ${sensor.name}"
-            onclick="toggleSensor(${idx})"
-            style="background-color: ${sensor.enabled ? '#10B981' : 'var(--toggle-off)'};"
-            class="relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
-          >
-            <span class="pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${sensor.enabled ? 'translate-x-5' : 'translate-x-0'}"></span>
-          </button>
-        </div>
-      `).join('');
+function exportData() {
+  const data=JSON.stringify({transactions,goals,budget},null,2);
+  const blob=new Blob([data],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download='velora-finance-data.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
 
-      list.innerHTML = appearanceRow + sensorRows;
-    }
+function resetData() {
+  if(!confirm('Reset all your finance data?'))return;
+  transactions=structuredClone(sample);
+  goals=[];
+  budget=1500;
+  save();render();
+}
 
-    function toggleSensor(index) {
-      sensors[index].enabled = !sensors[index].enabled;
-      renderSensors();
-    }
-
-    // ==========================================
-    // 6. ACCORDIONS, NAVIGATION & TOASTS
-    // ==========================================
-    // 1. STATE & MOCK DATA DEFINITIONS
-    // ==========================================
-    let currentDashFilter = 'All';
-    let currentChatChannel = 'Class';
-
-    const dashboardInsights = {
-      All: "Kenya's phones sit highest on average. Tap a country to compare.",
-      Kenya: "Kenya averages 1,650 m — elevated highland cities like Nairobi & Eldoret boost readings.",
-      Philippines: "Philippines averages 40 m — most participating students live near coastal metro areas.",
-      Chile: "Chile averages 520 m — Santiago sits in a valley surrounded by the Andes foothills."
-    };
-
-    // Scatter plot anonymized student readings (Cyan = Kenya, Coral-Rose = Philippines, Golden Amber = Chile)
-    const scatterStudents = [
-      // Philippines cluster (~40m - 120m, Warm Coral-Rose #F43F5E)
-      { country: 'Philippines', color: '#F43F5E', alt: 35, move: 8.1, id: 'PH-04' },
-      { country: 'Philippines', color: '#F43F5E', alt: 25, move: 7.2, id: 'PH-11' },
-      { country: 'Philippines', color: '#F43F5E', alt: 45, move: 6.1, id: 'PH-19' },
-      { country: 'Philippines', color: '#F43F5E', alt: 20, move: 5.0, id: 'PH-22' },
-      { country: 'Philippines', color: '#F43F5E', alt: 40, move: 3.9, id: 'PH-27' },
-      { country: 'Philippines', color: '#F43F5E', alt: 55, move: 2.8, id: 'PH-31' },
-      // Chile cluster (~460m - 620m, Golden Amber #F59E0B)
-      { country: 'Chile', color: '#F59E0B', alt: 610, move: 7.1, id: 'CL-03' },
-      { country: 'Chile', color: '#F59E0B', alt: 530, move: 6.1, id: 'CL-08' },
-      { country: 'Chile', color: '#F59E0B', alt: 495, move: 5.0, id: 'CL-15' },
-      { country: 'Chile', color: '#F59E0B', alt: 470, move: 3.9, id: 'CL-21' },
-      { country: 'Chile', color: '#F59E0B', alt: 575, move: 2.9, id: 'CL-29' },
-      { country: 'Chile', color: '#F59E0B', alt: 540, move: 1.9, id: 'CL-34' },
-      // Kenya cluster (~1480m - 1820m, Electric Cyan #06B6D4)
-      { country: 'Kenya', color: '#06B6D4', alt: 1790, move: 8.8, id: 'KE-02' },
-      { country: 'Kenya', color: '#06B6D4', alt: 1620, move: 8.0, id: 'KE-07' },
-      { country: 'Kenya', color: '#06B6D4', alt: 1690, move: 6.9, id: 'KE-12' },
-      { country: 'Kenya', color: '#06B6D4', alt: 1505, move: 5.9, id: 'KE-18' },
-      { country: 'Kenya', color: '#06B6D4', alt: 1730, move: 5.0, id: 'KE-25' },
-      { country: 'Kenya', color: '#06B6D4', alt: 1565, move: 3.9, id: 'KE-30' }
-    ];
-
-    // Chat threads per channel
-    const chatThreads = {
-      Class: [
-        {
-          sender: 'Amara',
-          initial: 'A',
-          avatarBg: '#0891B2',
-          text: 'Has anyone looked at the altitude chart yet?',
-          time: '9:02'
-        },
-        {
-          sender: 'Mateo',
-          initial: 'M',
-          avatarBg: '#D97706',
-          text: 'Santiago sits higher than I expected!',
-          time: '9:05'
-        }
-      ],
-      Kenya: [
-        {
-          sender: 'Amara',
-          initial: 'A',
-          avatarBg: '#0891B2',
-          text: 'Morning from Nairobi! Our sensor readings are hovering around 1,680m today.',
-          time: '8:45'
-        }
-      ],
-      Philippines: [
-        {
-          sender: 'Lia',
-          initial: 'L',
-          avatarBg: '#E11D48',
-          text: 'Checking in from Manila — almost sea level at 38m!',
-          time: '8:50'
-        }
-      ],
-      Chile: [
-        {
-          sender: 'Mateo',
-          initial: 'M',
-          avatarBg: '#D97706',
-          text: 'Walking to class in Santiago, accelerometer picks up every hill.',
-          time: '9:01'
-        }
-      ]
-    };
-
-    // Privacy sensor state
-    const sensors = [
-      {
-        id: 'location',
-        name: 'Location',
-        onText: 'Santiago, Chile',
-        offText: 'Not shared',
-        enabled: true,
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />`
-      },
-      {
-        id: 'provider',
-        name: 'Provider',
-        onText: 'Entel 5G',
-        offText: 'Not shared',
-        enabled: false,
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M6 18v-3m4 3v-6m4 6V6m4 12V3" />`
-      },
-      {
-        id: 'ip',
-        name: 'IP address',
-        onText: 'Hidden from classmates',
-        offText: 'Not shared',
-        enabled: true,
-        icon: `<circle cx="12" cy="12" r="9" /><path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M11.5 3a17 17 0 000 18M12.5 3a17 17 0 010 18" />`
-      },
-      {
-        id: 'accelerometer',
-        name: 'Accelerometer',
-        onText: '0.12 g',
-        offText: 'Paused',
-        enabled: true,
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M3 12h3l2.5-4 4 8 2.5-4H21" />`
-      },
-      {
-        id: 'altitude',
-        name: 'Altitude',
-        onText: '532 m',
-        offText: 'Paused',
-        enabled: true,
-        icon: `<path stroke-linecap="round" stroke-linejoin="round" d="M3 18l6-9 4 5 3-4 5 8H3z" />`
-      }
-    ];
-
-    // ==========================================
-    // 2. DASHBOARD & CHARTS LOGIC
-    // ==========================================
-    function showBarTooltip(country, valueText) {
-      const tip = document.getElementById('bar-tooltip');
-      tip.textContent = `${country}: ${valueText}`;
-      tip.classList.remove('hidden');
-    }
-
-    function hideBarTooltip() {
-      document.getElementById('bar-tooltip').classList.add('hidden');
-    }
-
-    function setDashboardFilter(country) {
-      currentDashFilter = country;
-
-      // Update active filter pill button styling
-      document.querySelectorAll('.dash-filter-btn').forEach(btn => {
-        const isSelected = btn.getAttribute('data-filter') === country;
-        if (isSelected) {
-          btn.className = 'dash-filter-btn bg-[#6366F1] text-white font-semibold text-[12.5px] py-2 rounded-xl transition shadow-sm shadow-indigo-950/50';
-        } else {
-          btn.className = 'dash-filter-btn text-slate-400 hover:text-white font-semibold text-[12.5px] py-2 rounded-xl transition';
-        }
-      });
-
-      // Update dynamic insight callout
-      document.getElementById('dashboard-insight-text').textContent = dashboardInsights[country];
-
-      // Update Bar Chart emphasis
-      ['Kenya', 'Philippines', 'Chile'].forEach(c => {
-        const group = document.getElementById(`bar-group-${c}`);
-        const label = document.getElementById(`bar-label-${c}`);
-        if (country === 'All' || country === c) {
-          group.style.opacity = '1';
-          label.classList.toggle('text-white', country === c);
-          label.classList.toggle('font-bold', country === c);
-        } else {
-          group.style.opacity = '0.28';
-          label.classList.remove('text-white', 'font-bold');
-        }
-      });
-
-      // Update Scatter Plot dot emphasis
-      renderScatterDots();
-    }
-
-    function renderScatterDots() {
-      const layer = document.getElementById('scatter-dots-layer');
-      layer.innerHTML = '';
-
-      scatterStudents.forEach(student => {
-        // Map altitude (0..2000) to SVG X (38..295)
-        const cx = 38 + (student.alt / 2000) * (295 - 38);
-        // Map movement (0..10) to SVG Y (135..15)
-        const cy = 135 - (student.move / 10) * (135 - 15);
-
-        const isDimmed = currentDashFilter !== 'All' && currentDashFilter !== student.country;
-
-        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        circle.setAttribute('cx', cx.toFixed(1));
-        circle.setAttribute('cy', cy.toFixed(1));
-        circle.setAttribute('r', isDimmed ? '4.5' : '5.5');
-        circle.setAttribute('fill', student.color);
-        circle.setAttribute('opacity', isDimmed ? '0.22' : '0.95');
-        circle.setAttribute('class', 'scatter-dot');
-
-        // Hover & tap tooltip handlers
-        const showTip = () => {
-          const tip = document.getElementById('scatter-tooltip');
-          document.getElementById('tooltip-country').textContent = `${student.country} · ${student.id}`;
-          document.getElementById('tooltip-values').textContent = `Altitude: ${student.alt.toLocaleString()}m · Move: ${student.move}`;
-          tip.classList.remove('hidden');
-        };
-        const hideTip = () => {
-          document.getElementById('scatter-tooltip').classList.add('hidden');
-        };
-
-        circle.addEventListener('mouseenter', showTip);
-        circle.addEventListener('click', showTip);
-        circle.addEventListener('mouseleave', hideTip);
-
-        layer.appendChild(circle);
-      });
-    }
-
-    function shareChartToChat(chartType) {
-      const summary = chartType === 'altitude'
-        ? '📊 Shared Altitude Chart: Kenya leads at 1,650m avg, Chile at 520m, and Philippines at 40m.'
-        : '📈 Shared Movement vs Altitude Plot: Comparing 18 student sensor clusters across Kenya, Chile & Philippines.';
-
-      const now = new Date();
-      const timeStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
-
-      chatThreads[currentChatChannel].push({
-        sender: 'You (ST)',
-        initial: 'ST',
-        avatarBg: '#4F46E5',
-        text: summary,
-        time: timeStr,
-        isSharedCard: true
-      });
-
-      renderChatMessages();
-      showToast(`Shared chart to ${currentChatChannel} chat!`);
-      navigateTab('chat');
-    }
-
-    // ==========================================
-    // 3. CHAT LOGIC
-    // ==========================================
-    function setChatChannel(channel) {
-      currentChatChannel = channel;
-
-      document.querySelectorAll('.chat-tab-btn').forEach(btn => {
-        const isSelected = btn.getAttribute('data-channel') === channel;
-        if (isSelected) {
-          btn.className = 'chat-tab-btn bg-[#6366F1] text-white font-semibold text-[12.5px] py-2 rounded-xl transition shadow-sm shadow-indigo-950/50';
-        } else {
-          btn.className = 'chat-tab-btn text-slate-400 hover:text-white font-semibold text-[12.5px] py-2 rounded-xl transition';
-        }
-      });
-
-      renderChatMessages();
-    }
-
-    function renderChatMessages() {
-      const container = document.getElementById('chat-messages-list');
-      const messages = chatThreads[currentChatChannel] || [];
-
-      container.innerHTML = messages.map(msg => `
-        <div class="flex items-end gap-2.5 animate-[fadeIn_0.25s_ease]">
-          <div class="w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-white font-bold text-xs shadow-sm" style="background-color: ${msg.avatarBg};">
-            ${msg.initial}
-          </div>
-          <div class="flex-1 bg-[#0F1219] border ${msg.isSharedCard ? 'border-[#6366F1]/50 bg-[#181B2C]' : 'border-[#232938]'} rounded-2xl px-3.5 py-2.5">
-            <div class="text-[11.5px] font-semibold text-slate-400 mb-1">${msg.sender}</div>
-            <div class="text-[13.5px] leading-snug text-white">${escapeHTML(msg.text)}</div>
-            <div class="text-right text-[10.5px] text-slate-500 mt-1">${msg.time}</div>
-          </div>
-        </div>
-      `).join('');
-
-      container.scrollTop = container.scrollHeight;
-    }
-
-    function handleSendMessage(event) {
-      event.preventDefault();
-      const input = document.getElementById('chat-input');
-      const text = input.value.trim();
-      if (!text) return;
-
-      const now = new Date();
-      const timeStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
-
-      chatThreads[currentChatChannel].push({
-        sender: 'You (ST)',
-        initial: 'ST',
-        avatarBg: '#4F46E5',
-        text: text,
-        time: timeStr
-      });
-
-      input.value = '';
-      renderChatMessages();
-    }
-
-    function escapeHTML(str) {
-      const div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
-    }
-
-    // ==========================================
-    // 4. SETTINGS / SENSOR PRIVACY TOGGLES
-    // ==========================================
-    function renderSensors() {
-      const list = document.getElementById('sensor-list');
-      const activeCount = sensors.filter(s => s.enabled).length;
-
-      // Update header lock badge & card subtitle dynamically
-      document.getElementById('header-sensor-count').textContent = `${activeCount} on`;
-      document.getElementById('settings-sensor-subtitle').textContent = `${activeCount} of ${sensors.length} sensors on`;
-
-      list.innerHTML = sensors.map((sensor, idx) => `
-        <div class="flex items-center justify-between py-3.5 first:pt-2 last:pb-1">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl ${sensor.enabled ? 'bg-[#10B981]/15 border border-[#10B981]/25 text-[#10B981]' : 'bg-[#1A1F2B] border border-[#232938] text-slate-400'} flex items-center justify-center transition-colors">
-              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                ${sensor.icon}
-              </svg>
-            </div>
-            <div>
-              <div class="text-[14.5px] font-bold text-white leading-tight">${sensor.name}</div>
-              <div class="text-[12.5px] text-slate-400 mt-0.5">${sensor.enabled ? sensor.onText : sensor.offText}</div>
-            </div>
-          </div>
-
-          <!-- Accessible Toggle Switch -->
-          <button
-            type="button"
-            role="switch"
-            aria-checked="${sensor.enabled}"
-            aria-label="Toggle ${sensor.name}"
-            onclick="toggleSensor(${idx})"
-            class="relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${sensor.enabled ? 'bg-[#10B981]' : 'bg-[#262D3F]'}"
-          >
-            <span class="pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${sensor.enabled ? 'translate-x-5' : 'translate-x-0'}"></span>
-          </button>
-        </div>
-      `).join('');
-    }
-
-    function toggleSensor(index) {
-      sensors[index].enabled = !sensors[index].enabled;
-      renderSensors();
-    }
-
-    // ==========================================
-    // 5. ACCORDIONS, NAVIGATION & TOASTS
-    // ==========================================
-    function toggleAccordion(bodyId, chevronId) {
-      const body = document.getElementById(bodyId);
-      const chevron = document.getElementById(chevronId);
-      const isCollapsed = body.style.maxHeight === '0px';
-
-      if (isCollapsed) {
-        body.style.maxHeight = '1600px';
-        body.style.opacity = '1';
-        chevron.style.transform = 'rotate(0deg)';
-      } else {
-        body.style.maxHeight = '0px';
-        body.style.opacity = '0';
-        chevron.style.transform = 'rotate(180deg)';
-      }
-    }
-
-    function scrollToSection(sectionId) {
-      const container = document.getElementById('scroll-container');
-      const target = document.getElementById(sectionId);
-      if (container && target) {
-        container.scrollTo({
-          top: target.offsetTop - 12,
-          behavior: 'smooth'
-        });
-      }
-    }
-
-    function navigateTab(tabName) {
-      setActiveNavTab(tabName);
-      scrollToSection(`${tabName}-section`);
-    }
-
-    function setActiveNavTab(tabName) {
-      document.querySelectorAll('.nav-pill-btn').forEach(btn => {
-        const isCurrent = btn.getAttribute('data-nav') === tabName;
-        if (isCurrent) {
-          btn.className = 'nav-pill-btn flex flex-col items-center justify-center py-2 rounded-[22px] bg-[#6366F1]/15 text-[#6366F1] dark:text-[#818CF8] transition';
-          btn.querySelector('span').classList.replace('font-semibold', 'font-bold');
-        } else {
-          btn.className = 'nav-pill-btn flex flex-col items-center justify-center py-2 rounded-[22px] text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition';
-          btn.querySelector('span').classList.replace('font-bold', 'font-semibold');
-        }
-      });
-    }
-
-    let toastTimeout;
-    function showToast(message) {
-      const toast = document.getElementById('toast-banner');
-      document.getElementById('toast-text').textContent = message;
-      toast.classList.remove('opacity-0', 'translate-y-3');
-      toast.classList.add('opacity-100', 'translate-y-0');
-
-      clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
-        toast.classList.add('opacity-0', 'translate-y-3');
-        toast.classList.remove('opacity-100', 'translate-y-0');
-      }, 2600);
-    }
-
-    // Update bottom nav highlight naturally as user scrolls
-    document.getElementById('scroll-container').addEventListener('scroll', function () {
-      const scrollPos = this.scrollTop + 180;
-      const sections = ['home', 'data', 'chat', 'settings'];
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(`${sections[i]}-section`);
-        if (el && scrollPos >= el.offsetTop) {
-          setActiveNavTab(sections[i]);
-          break;
-        }
-      }
-    });
-
-    // Initialize interactive components on load
-    window.addEventListener('DOMContentLoaded', () => {
-      initTheme();
-      renderScatterDots();
-      renderChatMessages();
-      renderSensors();
-    });
-  </script>
+save();
+render();
+</script>
 </body>
 </html>
