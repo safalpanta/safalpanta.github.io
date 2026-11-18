@@ -1,1 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daniel Pinzon - Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1d1d1f; --muted: #6b6b70; --paper: #ffffff; --bg: #fbf8f3; --line: #b9b9be;
+      --pink: #fcc9cf; --yellow: #fde47f; --mint: #b5ece4; --lavender: #dcb8f5;
+      --card: var(--pink);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 40px 20px 72px; background: var(--bg); color: var(--ink); font-family: "Nunito", system-ui, sans-serif; }
+    .top { max-width: 760px; margin: 0 auto; }
+    .back { display: inline-block; color: var(--muted); font-weight: 700; font-size: 0.9rem; text-decoration: none; margin-bottom: 24px; }
+    .back:hover { color: var(--ink); }
+    header { max-width: 760px; margin: 0 auto 40px; background: var(--card); padding: 28px 22px; text-align: center; }
+    h1 { font-family: "Lilita One", cursive; font-weight: 400; font-size: clamp(1.8rem, 5vw, 2.6rem); letter-spacing: 0.05em; text-transform: uppercase; margin: 0 0 4px; }
+    header p { margin: 0; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.8rem; color: var(--muted); }
+    .entries { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+    .entry { background: var(--paper); border-top: 8px solid var(--card); padding: 20px 24px 24px; }
+    .date { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
+    .entry h2 { font-family: "Lilita One", cursive; font-weight: 400; font-size: 1.25rem; letter-spacing: 0.04em; margin: 0 0 10px; }
+    .entry p { line-height: 1.6; margin: 0 0 10px; }
+    figure { margin: 16px 0 0; }
+    figure img { max-width: 100%; display: block; border: 1.5px dotted var(--line); }
+    figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <div class="top"><a class="back" href="index.html">&larr; Back to team page</a></div>
 
+  <header>
+    <h1>Daniel Pinzon</h1>
+    <p>Documentation</p>
+  </header>
+
+  <main class="entries">
+
+    <article class="entry">
+      <p class="date">Week 2</p>
+      <h2>Entry Title</h2>
+      <p>Write your documentation here.</p>
+      <figure>
+        <img src="images/your-image.png" alt="Image description">
+        <figcaption>Image caption</figcaption>
+      </figure>
+    </article>
+
+  </main>
+</body>
+</html>
