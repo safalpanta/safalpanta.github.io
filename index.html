@@ -9,16 +9,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --ink: #1d1d1f;
-      --muted: #6b6b70;
+      --ink: #0b2a3c;      /* text on cards */
+      --text: #0b2a3c;     /* text on page background */
+      --muted: #52707f;    /* secondary text on page background */
+      --label: #52707f;    /* small labels inside white boxes */
       --paper: #ffffff;
-      --bg: #fbf8f3;
-      --line: #b9b9be;
+      --bg: #eef5f8;
+      --line: #b8cdd6;
 
-      --pink: #fcc9cf;
-      --yellow: #fde47f;
-      --mint: #b5ece4;
-      --lavender: #dcb8f5;
+      /* class names kept so the HTML doesn't need to change */
+      --pink: #ff9f8a;     /* coral */
+      --yellow: #ffd9a0;   /* sand */
+      --mint: #6fcdbd;     /* sea green */
+      --lavender: #8fd0ee; /* sky blue */
     }
 
     * { box-sizing: border-box; }
@@ -27,14 +30,11 @@
       margin: 0;
       padding: 56px 20px 72px;
       background: var(--bg);
-      color: var(--ink);
+      color: var(--text);
       font-family: "Nunito", system-ui, sans-serif;
     }
 
-    header {
-      text-align: center;
-      margin-bottom: 48px;
-    }
+    header { text-align: center; margin-bottom: 48px; }
 
     h1 {
       font-family: "Lilita One", cursive;
@@ -44,11 +44,7 @@
       margin: 0 0 8px;
     }
 
-    header p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
+    header p { margin: 0; color: var(--muted); font-size: 0.95rem; }
 
     .grid {
       display: grid;
@@ -60,6 +56,7 @@
 
     .card {
       background: var(--card);
+      color: var(--ink);
       padding: 22px 22px 24px;
       display: flex;
       flex-direction: column;
@@ -72,7 +69,6 @@
     .card.mint     { --card: var(--mint); }
     .card.lavender { --card: var(--lavender); }
 
-    /* Name heading */
     .name {
       font-family: "Lilita One", cursive;
       font-weight: 400;
@@ -83,7 +79,6 @@
       margin: 4px 0 14px;
     }
 
-    /* White info box with dotted lines */
     .info {
       background: var(--paper);
       padding: 6px 14px 10px;
@@ -100,20 +95,16 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--muted);
+      color: var(--label);
       margin-bottom: 2px;
     }
-    .row dd {
-      margin: 0;
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
+    .row dd { margin: 0; font-size: 0.95rem; font-weight: 600; }
 
     @media (max-width: 560px) {
       body { padding: 36px 16px 56px; }
       .grid { grid-template-columns: 1fr; gap: 24px; max-width: 360px; }
     }
-        .ideas { max-width: 960px; margin: 80px auto 0; }
+    .ideas { max-width: 960px; margin: 80px auto 0; }
     .section-title {
       font-family: "Lilita One", cursive; font-weight: 400;
       font-size: clamp(1.6rem, 4vw, 2.2rem); letter-spacing: 0.04em;
@@ -122,7 +113,7 @@
     .section-sub { text-align: center; color: var(--muted); font-size: 0.95rem; margin: 0 0 36px; }
     .idea-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
     .idea {
-      background: var(--paper); border-top: 8px solid var(--card);
+      background: var(--paper); color: var(--ink); border-top: 8px solid var(--card);
       padding: 18px 18px 20px; display: flex; flex-direction: column;
       transition: transform 0.2s ease;
     }
@@ -143,8 +134,8 @@
     }
     @media (max-width: 860px) { .idea-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 560px) { .idea-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; } }
-        .idea.empty { min-height: 170px; }
-        .docs { max-width: 760px; margin: 80px auto 0; }
+    .idea.empty { min-height: 170px; }
+    .docs { max-width: 760px; margin: 80px auto 0; }
     .doc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
     .doc-link {
       background: var(--card); color: var(--ink); text-decoration: none;
@@ -160,10 +151,10 @@
       display: block; font-family: "Lilita One", cursive; font-weight: 400;
       font-size: 1.05rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px;
     }
-    .doc-go { font-size: 0.8rem; font-weight: 700; color: var(--muted); }
+    .doc-go { font-size: 0.8rem; font-weight: 700; color: var(--label); }
     @media (max-width: 760px) { .doc-grid { grid-template-columns: repeat(2, 1fr); } }
 
-        .proto { max-width: 760px; margin: 80px auto 0; text-align: center; }
+    .proto { max-width: 760px; margin: 80px auto 0; text-align: center; }
     .proto-btn {
       display: inline-block; background: var(--ink); color: #fff;
       font-family: "Lilita One", cursive; font-weight: 400;
@@ -237,41 +228,40 @@
     <h2 class="section-title">Project Ideas</h2>
     <p class="section-sub">Our group's ideas and the tech we would like to use</p>
     <div class="idea-grid">
-
       <article class="idea pink">
-        <h3>Lab Inventory System</h3>
-        <p>A system for a uni lab to record materials and equipment. It checks stock levels every day and automatically emails lab staff when an item runs low or is close to its expiry date, then creates a reorder request.</p>
-        <div class="tags"><span>Python (Flask)</span><span>MySQL</span></div>
+        <h3>Group Meeting Scheduler</h3>
+        <p>Team members mark the times they are free each week. The app finds the slots where everyone is available and ranks the best ones, so groups stop going back and forth in chat.</p>
+        <div class="tags"><span>React</span><span>Node.js</span><span>MongoDB</span></div>
       </article>
 
       <article class="idea yellow">
-        <h3>Smart Study Planner</h3>
-        <p>A web app where students add subjects and assignment due dates. It shows tasks on a weekly view, sorts them by deadline and lets students add their own to-dos and tick them off.</p>
-        <div class="tags"><span>JavaScript</span><span>localStorage</span><span>HTML/CSS</span></div>
+        <h3>Textbook Swap Board</h3>
+        <p>Students list textbooks they want to sell or swap, and search by course code or title. Buyers can send a request, and sellers mark the book as sold when it is gone.</p>
+        <div class="tags"><span>Node.js</span><span>Express</span><span>PostgreSQL</span></div>
       </article>
 
       <article class="idea mint">
-        <h3>Coding Library Finder for Beginners</h3>
-        <p>A searchable website that helps beginners find the right coding library (e.g. pandas, React, Chart.js) for their project, with simple examples and links.</p>
-        <div class="tags"><span>MySQL</span><span>JavaScript</span><span>HTML/CSS</span></div>
+        <h3>Pantry Recipe Finder</h3>
+        <p>Users type in the ingredients they already have, and the app suggests recipes they can cook now. It also shows what is missing for recipes that are almost possible.</p>
+        <div class="tags"><span>JavaScript</span><span>REST API</span><span>HTML/CSS</span></div>
       </article>
 
-            <article class="idea lavender">
-        <h3>Bonus Credit Hunter</h3>
-        <p>A web app for Woolworths and Coles credit promotions. Add the things you need to your shopping list, and it shows which items give bonus credits right now. In store, tap items as you buy them. It shows your credits and how much more you need to spend to reach $20.</p>
-        <div class="tags"><span>React</span><span>Node.js</span><span>PostgreSQL</span></div>
+      <article class="idea lavender">
+        <h3>Study Room Booking</h3>
+        <p>Students view the free time slots for campus study rooms and book one. The system blocks double bookings and lets users cancel or change their booking.</p>
+        <div class="tags"><span>Python (Django)</span><span>SQLite</span></div>
       </article>
 
       <article class="idea pink">
-        <h3>Personal Expense Tracker</h3>
-        <p>A simple web app that allows users record their daily expenses, categorise spending (e.g. food, transport, shopping), and view their total spending by week or month. It helps users understand where their money goes./p>
-        <div class="tags"><span>HTML</span><span>JavaScript</span></div>
+        <h3>Idea Title</h3>
+        <p>Short explanation</p>
+        <div class="tags"><span>Tech 1</span><span>Tech 2</span></div>
       </article>
 
       <article class="idea yellow">
-        <h3>Smart To-Do List</h3>
-        <p>A simple web app where users can add, edit and delete tasks, set priorities (High, Medium, Low), and mark tasks as completed. It also displays pending and completed tasks to help users manage their daily activities.</p>
-        <div class="tags"><span>HTML</span><span>localStorage</span></div>
+        <h3>Idea Title</h3>
+        <p>Short explanation</p>
+        <div class="tags"><span>Tech 1</span><span>Tech 2</span></div>
       </article>
 
       <article class="idea mint">
