@@ -1,1 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Team Profiles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1d1d1f;
+      --muted: #6b6b70;
+      --paper: #ffffff;
+      --bg: #fbf8f3;
+      --line: #b9b9be;
 
+      --pink: #fcc9cf;
+      --yellow: #fde47f;
+      --mint: #b5ece4;
+      --lavender: #dcb8f5;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 56px 20px 72px;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Nunito", system-ui, sans-serif;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    h1 {
+      font-family: "Lilita One", cursive;
+      font-weight: 400;
+      font-size: clamp(2rem, 5vw, 3rem);
+      letter-spacing: 0.04em;
+      margin: 0 0 8px;
+    }
+
+    header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 36px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 22px 22px 24px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease;
+    }
+    .card:hover { transform: translateY(-4px) rotate(-0.4deg); }
+
+    .card.pink     { --card: var(--pink); }
+    .card.yellow   { --card: var(--yellow); }
+    .card.mint     { --card: var(--mint); }
+    .card.lavender { --card: var(--lavender); }
+
+    /* Name heading */
+    .name {
+      font-family: "Lilita One", cursive;
+      font-weight: 400;
+      font-size: 1.35rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-align: center;
+      margin: 4px 0 14px;
+    }
+
+    /* White info box with dotted lines */
+    .info {
+      background: var(--paper);
+      padding: 6px 14px 10px;
+      margin: 0;
+      flex: 1;
+    }
+    .row {
+      padding: 9px 0 7px;
+      border-bottom: 1.5px dotted var(--line);
+    }
+    .row:last-child { border-bottom: none; }
+    .row dt {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+    .row dd {
+      margin: 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    @media (max-width: 560px) {
+      body { padding: 36px 16px 56px; }
+      .grid { grid-template-columns: 1fr; gap: 24px; max-width: 360px; }
+    }
+        .ideas { max-width: 960px; margin: 80px auto 0; }
+    .section-title {
+      font-family: "Lilita One", cursive; font-weight: 400;
+      font-size: clamp(1.6rem, 4vw, 2.2rem); letter-spacing: 0.04em;
+      text-align: center; margin: 0 0 8px;
+    }
+    .section-sub { text-align: center; color: var(--muted); font-size: 0.95rem; margin: 0 0 36px; }
+    .idea-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .idea {
+      background: var(--paper); border-top: 8px solid var(--card);
+      padding: 18px 18px 20px; display: flex; flex-direction: column;
+      transition: transform 0.2s ease;
+    }
+    .idea:hover { transform: translateY(-4px) rotate(0.4deg); }
+    .idea.pink { --card: var(--pink); }
+    .idea.yellow { --card: var(--yellow); }
+    .idea.mint { --card: var(--mint); }
+    .idea.lavender { --card: var(--lavender); }
+    .idea h3 {
+      font-family: "Lilita One", cursive; font-weight: 400;
+      font-size: 1.05rem; letter-spacing: 0.04em; margin: 0 0 8px;
+    }
+    .idea p { margin: 0 0 14px; font-size: 0.9rem; line-height: 1.5; flex: 1; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tags span {
+      background: var(--card); font-size: 0.7rem; font-weight: 700;
+      padding: 3px 9px; border-radius: 999px;
+    }
+    @media (max-width: 860px) { .idea-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .idea-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; } }
+        .idea.empty { min-height: 170px; }
+        .docs { max-width: 760px; margin: 80px auto 0; }
+    .doc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .doc-link {
+      background: var(--card); color: var(--ink); text-decoration: none;
+      padding: 22px 14px; text-align: center; display: block;
+      transition: transform 0.2s ease;
+    }
+    .doc-link:hover { transform: translateY(-4px) rotate(-0.4deg); }
+    .doc-link.pink { --card: var(--pink); }
+    .doc-link.yellow { --card: var(--yellow); }
+    .doc-link.mint { --card: var(--mint); }
+    .doc-link.lavender { --card: var(--lavender); }
+    .doc-name {
+      display: block; font-family: "Lilita One", cursive; font-weight: 400;
+      font-size: 1.05rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px;
+    }
+    .doc-go { font-size: 0.8rem; font-weight: 700; color: var(--muted); }
+    @media (max-width: 760px) { .doc-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        .proto { max-width: 760px; margin: 80px auto 0; text-align: center; }
+    .proto-btn {
+      display: inline-block; background: var(--ink); color: #fff;
+      font-family: "Lilita One", cursive; font-weight: 400;
+      font-size: 1.2rem; letter-spacing: 0.06em; text-transform: uppercase;
+      text-decoration: none; padding: 16px 40px;
+      transition: transform 0.2s ease;
+    }
+    .proto-btn:hover { transform: translateY(-4px) rotate(-0.4deg); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Our Team Profiles</h1>
+  </header>
+
+  <main class="grid">
+
+    <article class="card pink">
+      <h2 class="name">Bijay Baral</h2>
+      <dl class="info">
+        <div class="row"><dt>Nationality</dt><dd>Colombian</dd></div>
+        <div class="row"><dt>Educational Background</dt><dd>Civil Engineer</dd></div>
+        <div class="row"><dt>IT Skills</dt><dd>Python Programming Skills</dd></div>
+        <div class="row"><dt>Work Experience</dt><dd></dd></div>
+        <div class="row"><dt>Project Goal</dt><dd></dd></div>
+        <div class="row"><dt>Hobby</dt><dd></dd></div>
+      </dl>
+    </article>
+
+    <article class="card yellow">
+      <h2 class="name">Safal Panta</h2>
+      <dl class="info">
+        <div class="row"><dt>Nationality</dt><dd>Korea</dd></div>
+        <div class="row"><dt>Educational Background</dt><dd>Material Science and Engineering</dd></div>
+        <div class="row"><dt>IT Skills</dt><dd>Python, MySQL, HTML/CSS</dd></div>
+        <div class="row"><dt>Work Experience</dt><dd>Undergraduate Research Assistant in Dynamic Nanobionengineering Lab</dd><dd>Assistant Migration Agent</dd></div>
+        <div class="row"><dt>Project Goal</dt><dd>Data Management Project in Material Science Field</dd></div>
+        <div class="row"><dt>Hobby</dt><dd>Photograph</dd></div>
+      </dl>
+    </article>
+
+    <article class="card mint">
+      <h2 class="name">Yoyo</h2>
+      <dl class="info">
+        <div class="row"><dt>Nationality</dt><dd>Hong Kong</dd></div>
+        <div class="row"><dt>Educational Background</dt><dd>Tourism Management</dd></div>
+        <div class="row"><dt>IT Skills</dt><dd>Database Management</dd></div>
+        <div class="row"><dt>Work Experience</dt><dd></dd></div>
+        <div class="row"><dt>Project Goal</dt><dd></dd></div>
+        <div class="row"><dt>Hobby</dt><dd></dd></div>
+      </dl>
+    </article>
+
+  </main>
+
+    <section class="ideas">
+    <h2 class="section-title">Project Ideas</h2>
+    <p class="section-sub">Our group's ideas and the tech we would like to use</p>
+    <div class="idea-grid">
+
+      <article class="idea pink">
+        <h3>Lab Inventory System</h3>
+        <p>A system for a uni lab to record materials and equipment. It checks stock levels every day and automatically emails lab staff when an item runs low or is close to its expiry date, then creates a reorder request.</p>
+        <div class="tags"><span>Python (Flask)</span><span>MySQL</span></div>
+      </article>
+
+      <article class="idea yellow">
+        <h3>Smart Study Planner</h3>
+        <p>A web app where students add subjects and assignment due dates. It shows tasks on a weekly view, sorts them by deadline and lets students add their own to-dos and tick them off.</p>
+        <div class="tags"><span>JavaScript</span><span>localStorage</span><span>HTML/CSS</span></div>
+      </article>
+
+      <article class="idea mint">
+        <h3>Coding Library Finder for Beginners</h3>
+        <p>A searchable website that helps beginners find the right coding library (e.g. pandas, React, Chart.js) for their project, with simple examples and links.</p>
+        <div class="tags"><span>MySQL</span><span>JavaScript</span><span>HTML/CSS</span></div>
+      </article>
+
+            <article class="idea lavender">
+        <h3>Bonus Credit Hunter</h3>
+        <p>A web app for Woolworths and Coles credit promotions. Add the things you need to your shopping list, and it shows which items give bonus credits right now. In store, tap items as you buy them. It shows your credits and how much more you need to spend to reach $20.</p>
+        <div class="tags"><span>React</span><span>Node.js</span><span>PostgreSQL</span></div>
+      </article>
+
+      <article class="idea pink">
+        <h3>Personal Expense Tracker</h3>
+        <p>A simple web app that allows users record their daily expenses, categorise spending (e.g. food, transport, shopping), and view their total spending by week or month. It helps users understand where their money goes./p>
+        <div class="tags"><span>HTML</span><span>JavaScript</span></div>
+      </article>
+
+      <article class="idea yellow">
+        <h3>Smart To-Do List</h3>
+        <p>A simple web app where users can add, edit and delete tasks, set priorities (High, Medium, Low), and mark tasks as completed. It also displays pending and completed tasks to help users manage their daily activities.</p>
+        <div class="tags"><span>HTML</span><span>localStorage</span></div>
+      </article>
+
+      <article class="idea mint">
+        <h3>Idea Title</h3>
+        <p>Short explanation</p>
+        <div class="tags"><span>Tech 1</span><span>Tech 2</span></div>
+      </article>
+
+      <article class="idea lavender">
+        <h3>Idea Title</h3>
+        <p>Short explanation</p>
+        <div class="tags"><span>Tech 1</span><span>Tech 2</span></div>
+      </article>
+
+      <article class="idea pink">
+        <h3>Idea Title</h3>
+        <p>Short explanation</p>
+        <div class="tags"><span>Tech 1</span><span>Tech 2</span></div>
+      </article>
+
+      <article class="idea yellow">
+        <h3>Idea Title</h3>
+        <p>Short explanation</p>
+        <div class="tags"><span>Tech 1</span><span>Tech 2</span></div>
+      </article>
+
+      <article class="idea mint">
+        <h3>Idea Title</h3>
+        <p>Short explanation</p>
+        <div class="tags"><span>Tech 1</span><span>Tech 2</span></div>
+      </article>
+
+      <article class="idea lavender">
+        <h3>Idea Title</h3>
+        <p>Short explanation</p>
+        <div class="tags"><span>Tech 1</span><span>Tech 2</span></div>
+      </article>
+
+    </div>
+
+    <section class="proto">
+    <h2 class="section-title">Prototype</h2>
+    <p class="section-sub">Connect Student: share and explore phone signal data</p>
+    <a class="proto-btn" href="prototype.html">View Prototype &rarr;</a>
+  </section>
+  </section>
+    <section class="docs">
+    <h2 class="section-title">Documentation</h2>
+    <p class="section-sub">Click a name to see each member's documentation</p>
+    <div class="doc-grid">
+      <a class="doc-link pink" href="safal.html"><span class="doc-name">Safal Panta</span><span class="doc-go">View &rarr;</span></a>
+      <a class="doc-link yellow" href="bijay.html"><span class="doc-name">Bijay Baral</span><span class="doc-go">View &rarr;</span></a>
+      <a class="doc-link mint" href="yoyo.html"><span class="doc-name">Yoyo</span><span class="doc-go">View &rarr;</span></a>
+    </div>
+  </section>
+</body>
+</html>
