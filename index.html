@@ -139,19 +139,23 @@ const row=(l,v)=>v?`<div class="f"><dt>${l}</dt><dd>${v}</dd></div>`:"";
 const initials=n=>{const w=n.split(/\s+/).filter(Boolean);return ((w[0]||"?")[0]+(w.length>1?w[w.length-1][0]:"")).toUpperCase()};
 const fallbackName=f=>f.replace(".html","").replace(/^./,c=>c.toUpperCase());
 
-async function loadPerson(f){
-  const res=await fetch(f);
-  if(!res.ok) throw new Error(res.status);
-  const d=new DOMParser().parseFromString(await res.text(),"text/html");
-  const g=k=>{const e=d.querySelector(`[data-field="${k}"] dd`);return e?e.textContent.trim():""};
-  return {
-    f, ok:true,
-    name:(d.querySelector("h1")?.textContent||"").trim()||fallbackName(f),
-    nat:g("nationality"), edu:g("education"),
-    skills:g("skills").split(",").map(s=>s.trim()).filter(Boolean),
-    work:g("work"), goal:g("goal"), hobby:g("hobby"),
-    entries:d.querySelectorAll(".entry").length
-  };
+function loadPerson(f){
+  return new Promise((resolve,reject)=>{
+    const fr=document.createElement("iframe");
+    fr.hidden=true;fr.tabIndex=-1;fr.setAttribute("aria-hidden","true");fr.title="";
+    const done=(fn,v)=>{clearTimeout(t);removeEventListener("message",on);fr.remove();fn(v)};
+    const on=e=>{
+      if(e.source!==fr.contentWindow||!e.data||e.data.type!=="profile")return;
+      const d=e.data;
+      done(resolve,{f,ok:true,name:d.name||fallbackName(f),nat:d.nat||"",edu:d.edu||"",
+        skills:(d.skills||"").split(",").map(s=>s.trim()).filter(Boolean),
+        work:d.work||"",goal:d.goal||"",hobby:d.hobby||"",entries:d.entries||0});
+    };
+    const t=setTimeout(()=>done(reject,new Error("timeout")),6000);
+    addEventListener("message",on);
+    document.body.appendChild(fr);
+    fr.src=f;
+  });
 }
 
 function teamCard(p){
@@ -171,12 +175,9 @@ document.getElementById("ideaGrid").innerHTML=ideas.map(d=>`
 
 (async()=>{
   const note=document.getElementById("note");
-  if(location.protocol==="file:"){
-    note.hidden=false;
-    note.innerHTML="Browsers block a page from reading other files when it is opened by double-clicking. To see the team cards, upload the site (for example to GitHub Pages) or run <code>python -m http.server</code> in this folder and open <code>http://localhost:8000</code>.";
-  }
   const results=await Promise.allSettled(FILES.map(loadPerson));
   const people=results.map((r,i)=>r.status==="fulfilled"?r.value:{f:FILES[i],ok:false,name:fallbackName(FILES[i])});
+  if(people.every(p=>!p.ok)){note.hidden=false;note.innerHTML="The team pages could not be loaded. Keep <code>index.html</code>, <code>ayou.html</code>, <code>bijay.html</code>, <code>chinmay.html</code> and <code>safal.html</code> in the same folder, with exactly these names."}
   document.getElementById("teamGrid").innerHTML=people.map(teamCard).join("");
   document.getElementById("docGrid").innerHTML=people.map(docCard).join("");
 })();
