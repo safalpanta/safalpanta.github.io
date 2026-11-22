@@ -112,6 +112,12 @@ btn.addEventListener("click",()=>{
   try{localStorage.setItem("theme",t)}catch(e){}
   syncBtn();
 });
+
+/* Sends this page's profile to index.html when index.html loads it. Keep this block. */
+if(window.parent!==window){
+  const g=k=>{const e=document.querySelector('[data-field="'+k+'"] dd');return e?e.textContent.trim():""};
+  parent.postMessage({type:"profile",name:document.querySelector("h1").textContent.trim(),nat:g("nationality"),edu:g("education"),skills:g("skills"),work:g("work"),goal:g("goal"),hobby:g("hobby"),entries:document.querySelectorAll(".entry").length},"*");
+}
 </script>
 </body>
 </html>
