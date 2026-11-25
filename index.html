@@ -128,9 +128,9 @@ const FILES=["ayou.html","bijay.html","chinmay.html","safal.html"];
 
 const ideas=[
  ["Group Meeting Scheduler","Team members mark the times they are free each week. The app finds the slots where everyone is available and ranks the best ones, so groups stop going back and forth in chat.",["React","Node.js","MongoDB"]],
- ["Textbook Swap Board","Students list textbooks they want to sell or swap, and search by course code or title. Buyers can send a request, and sellers mark the book as sold when it is gone.",["Node.js","Express","PostgreSQL"]],
- ["Pantry Recipe Finder","Users type in the ingredients they already have, and the app suggests recipes they can cook now. It also shows what is missing for recipes that are almost possible.",["JavaScript","REST API","HTML/CSS"]],
- ["Study Room Booking","Students view the free time slots for campus study rooms and book one. The system blocks double bookings and lets users cancel or change their booking.",["Python (Django)","SQLite"]]
+ ["Split-Second Group Bill Splitter","Someone snaps a photo of a long, messy receipt and the app reads the items and prices with OCR. Everyone taps their own items on their own phone, and tax and tip are worked out automatically. A fun Roulette mode randomly gives a shared appetizer or the whole tip to one unlucky person.",["React","Node.js","OCR (Tesseract.js)","WebSockets"]],
+ ["“Is This Scammy?” Lease & Contract Analyzer","Renters and freelancers upload a PDF or photos of an agreement, and the app highlights red flags, unusual clauses and missing protections in plain English. It grades the contract on a Fairness Scale and writes polite email templates to negotiate the bad clauses.",["Python","PDF parsing","OCR","NLP / AI API"]],
+ ["Event-Driven Micro-Carpool","A ride-sharing board for verified university students heading to the same off-campus event, such as a concert, the airport before the holidays or a weekend grocery run. Instead of live GPS routing, it matches people by destination event and shows a flat gas-split cost.",["React","Node.js","PostgreSQL"]]
 ];
 
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -171,7 +171,7 @@ function docCard(p){
 }
 
 document.getElementById("ideaGrid").innerHTML=ideas.map(d=>`
-<article class="card idea"><span class="status">Proposed</span><h3>${esc(d[0])}</h3><p>${esc(d[1])}</p>${chips(d[2])}</article>`).join("");
+<article class="card idea"><h3>${esc(d[0])}</h3><p>${esc(d[1])}</p>${chips(d[2])}</article>`).join("");
 
 (async()=>{
   const note=document.getElementById("note");
